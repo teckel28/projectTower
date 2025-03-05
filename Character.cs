@@ -21,10 +21,10 @@ namespace projectTower{
         public int? pcClass {get; set;}
         public string? classString{get; set;}
 
-        public int basehp = 1000;
+        public int basehp = 100;
         public int maxHp {get; set;}
         public int currentHp {get; set;}
-        public int basemp = 1000;
+        public int basemp = 100;
         public int maxMp {get; set;}
         public int currentMp {get; set;}
 
