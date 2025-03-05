@@ -497,10 +497,10 @@ namespace projectTower
                     case 1://monster room
                     /*
                         //tier value is how many monsters are in that tier
-                        int tier1 = 8; //floor 1 easy
+                        int tier1 = 1 + 8; //floor 1 easy
                         int tier2 = tier1 + 3; //floor 1 hard
-                        int tier3 = tier2 + 5; //floor 1 bosses
-                        int[] tierRanges = {tier1, tier2, tier3};
+                        int tier3 = tier2 + 5 + 0; //floor 2 easy
+                        int[] tierRanges = {1, tier1, tier2, tier2 + 5, tier3};
                         
                         if(room <= 4){
                             values[i+3] = random.Next(tierRanges[floor*3], tierRanges[floor*3 + 1]);

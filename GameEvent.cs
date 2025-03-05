@@ -563,7 +563,6 @@ namespace projectTower
             Writer.WriteText("See an inventory item description: [type command 'desc']", 19);
             Writer.WriteText("See a relic description: [type command 'rdesc']", 21);
 
-            
 
         }
     }
