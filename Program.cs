@@ -445,10 +445,7 @@ namespace projectTower
         //last 3 are the specific event happening in the room, for example, the specific monster in case of a monster room, or the rarity of the item for a loot room
         public static int[] ChooseOptions()
         {
-            
-            
-            //create array
-            
+
             //select the first 3 numbers (types of rooms)
             if(floor == 0 && room < 3){
                 for (int i = 0; i < 3; i++)  
@@ -498,7 +495,17 @@ namespace projectTower
                 switch (values[i])
                 {
                     case 1://monster room
-                        values[i+3] = random.Next(1, CSVmonsters.Count());
+                        //tier value is how many monsters are in that tier
+                        int tier1 = 8; //floor 1 easy
+                        int tier2 = tier1 + 3; //floor 1 hard
+                        int tier3 = tier2 + 5; //floor 1 bosses
+                        int[] tierRanges = {tier1, tier2, tier3};
+                        
+                        if(room <= 4){
+                            values[i+3] = random.Next(tierRanges[floor*3], tierRanges[floor*3 + 1]);
+                        } else {
+                            values[i+3] = random.Next(tierRanges[floor*3], tierRanges[floor*3 + 2]);
+                        }
                     break;
                     case 2: //loot room
                         int lootRarity = random.Next(1, 101); 
@@ -619,7 +626,10 @@ namespace projectTower
                         values[i+3] = 0;
                     break;
                     case 7: //boss
-
+                        List<int> bosses = new List<int>(); for (int j = 0; j < 5; j++) bosses[j] = j;
+                        int thisBoss = random.Next(0, bosses.Count());
+                        values[i+3] = bosses[thisBoss];
+                        bosses.RemoveAt(thisBoss);
                     break;
                     
                     
