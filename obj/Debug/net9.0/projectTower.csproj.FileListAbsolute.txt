@@ -12,3 +12,4 @@ C:\Users\Benja\Documents\thing\projectTower\obj\Debug\net9.0\refint\projectTower
 C:\Users\Benja\Documents\thing\projectTower\obj\Debug\net9.0\projectTower.pdb
 C:\Users\Benja\Documents\thing\projectTower\obj\Debug\net9.0\projectTower.genruntimeconfig.cache
 C:\Users\Benja\Documents\thing\projectTower\obj\Debug\net9.0\ref\projectTower.dll
+C:\Users\Benja\Documents\thing\projectTower\obj\Debug\net9.0\projectTower.sourcelink.json

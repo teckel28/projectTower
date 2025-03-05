@@ -544,14 +544,26 @@ namespace projectTower
 
         public override void Start()
         {
-            Console.Clear();
-            Program.HUD();
-            Writer.WriteText(eventDescription, 5);
+            Program.ValidInputs.Remove("r1"); Program.ValidInputs.Remove("r2"); Program.ValidInputs.Remove("r3");
+            Program.ValidInputs.Add("rest");Program.ValidInputs.Add("fullrest");Program.ValidInputs.Add("hp");Program.ValidInputs.Add("mp");
             CampLoop();
             Program.ChooseOptions();
         }
 
         public void CampLoop(){
+            Console.Clear();
+            Program.HUD();
+            Writer.WriteText(eventDescription, 5);
+            Writer.WriteText("Rest and recover 30% of your HP and MP: [type command 'rest']", 7);
+            Writer.WriteText("Rest and recover all of your HP and MP (no EXP this room): [type command 'fullrest']", 9);
+            Writer.WriteText("Gain +15 maxHP/maxMP: [type command 'hp'/'mp']", 11);
+            Writer.WriteText("Gain +3 STR/MAG/TEC/DEF/SPE: [type command 'str'/'mag'/'tec'/'def'/'spe']", 13);
+            Writer.WriteText("Gain +1 PRE/EVA (no EXP this room): [type command 'pre'/'eva']", 15);
+            Writer.WriteText("Equip an item: [type command 'equip']", 17);
+            Writer.WriteText("See an inventory item description: [type command 'desc']", 19);
+            Writer.WriteText("See a relic description: [type command 'rdesc']", 21);
+
+            
 
         }
     }

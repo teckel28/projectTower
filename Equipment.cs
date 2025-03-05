@@ -190,9 +190,10 @@ namespace projectTower
         public Ability? ability1 {get; set;}
         public Ability? ability2 {get; set;}
         
-        public WeaponEquipment(string name, int hpMod, int mpMod, int strMod, int magMod, int tecMod, int defMod, int speedMod, int precMod, int evaMod, string rarity, string description, int price, bool isHeavy, Ability? ability1, Ability? ability2) :
+        public WeaponEquipment(string name, int hpMod, int mpMod, int strMod, int magMod, int tecMod, int defMod, int speedMod, int precMod, int evaMod, string rarity, string description, int price, string[] tags, bool isHeavy, Ability? ability1, Ability? ability2) :
          base(name, hpMod, mpMod, strMod, magMod, tecMod, defMod, speedMod, precMod, evaMod, rarity, description, price)
         {
+            this.tags = tags;
             this.isHeavy = isHeavy;
             this.ability1 = ability1;
             this.ability2 = ability2;

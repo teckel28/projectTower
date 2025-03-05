@@ -115,7 +115,7 @@ namespace projectTower
                     nullA = new NullAbility("", "", "", "", "", 0, 0, 0, 0);
 
                     WeaponEquipment woodenSword;
-                    woodenSword = new WeaponEquipment("Wooden sword", 0, 0, 0, 0, 0, 0, 0, 0, 0, "Common", "A begginer's (not so) trusty weapon", 2, false, slash, nullA);
+                    woodenSword = new WeaponEquipment("Wooden sword", 0, 0, 0, 0, 0, 0, 0, 0, 0, "Common", "A begginer's (not so) trusty weapon", 2, [], false, slash, nullA);
                     chara.inventory.Add(woodenSword);
                     chara.Equip(woodenSword, 1);
 
@@ -123,7 +123,7 @@ namespace projectTower
                     DamageAbility shieldBash;
                     shieldBash = new DamageAbility("Shield bash", "Easier to hit than a sword slash but not ", "as effective", "", "-", 6, 2, 0, 0.55m, 0, 0.05m);
                     WeaponEquipment woodenShield;
-                    woodenShield = new WeaponEquipment("Wooden shield", 0, 0, 0, 0, 0, 1, 0, 0, 0, "Common", "Is that a... pot lid? [+1 DEF]", 2, false, shieldBash, nullA);
+                    woodenShield = new WeaponEquipment("Wooden shield", 0, 0, 0, 0, 0, 1, 0, 0, 0, "Common", "Is that a... pot lid? [+1 DEF]", 2, [], false, shieldBash, nullA);
                     chara.inventory.Add(woodenShield);
                     chara.Equip(woodenShield, 2);
 
@@ -142,7 +142,7 @@ namespace projectTower
                     
 
                     WeaponEquipment wand;
-                    wand = new WeaponEquipment("Apprentice wand", 0, 0, 0, 0, 0, 0, 0, 0, 0, "Common", "It choose you... remember the memories at the academy?", 2, false, magic, fire);
+                    wand = new WeaponEquipment("Apprentice wand", 0, 0, 0, 0, 0, 0, 0, 0, 0, "Common", "It choose you... remember the memories at the academy?", 2, [], false, magic, fire);
                     chara.inventory.Add(wand);
                     chara.Equip(wand, 1);
                 break;
@@ -495,6 +495,7 @@ namespace projectTower
                 switch (values[i])
                 {
                     case 1://monster room
+                    /*
                         //tier value is how many monsters are in that tier
                         int tier1 = 8; //floor 1 easy
                         int tier2 = tier1 + 3; //floor 1 hard
@@ -506,6 +507,8 @@ namespace projectTower
                         } else {
                             values[i+3] = random.Next(tierRanges[floor*3], tierRanges[floor*3 + 2]);
                         }
+                    */
+                    values[i+3] = random.Next(1, CSVmonsters.Count());
                     break;
                     case 2: //loot room
                         int lootRarity = random.Next(1, 101); 
