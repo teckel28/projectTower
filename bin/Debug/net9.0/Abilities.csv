@@ -1,0 +1,15 @@
+Type;Name;Desc1;Desc2;Desc3;Element;mpCost;strScale;magScale;tecScale;power;precMod;poison
+NullAbility;;;;;;;;;;;;
+DamageAbility;Slash;Deals little damage to the enemy;;;-;;0,5;;0,4;7;;
+DamageAbility;Stab;A precise hit to the enemy;;;-;;0,3;;0,6;4;1;
+DamageAbility;Slime strike;Blunt strike with this goey weapon;;;-;;0,5;0,3;0,15;5;;
+DamageAbility;Conjure fluid;Conjures a ball of slime and;shoots it foward. Higher scaling;but lower base power;Water;3;;0,8;0,3;1;;
+DamageAbility;Pierce flurry;Really difficult to pull off,;requires great strenght, technique,;and precision;;;0,9;;0,9;1;-2;
+DamageAbility;Baby fire breath;Consumes a lot of mp, but deals;great damage, characteristic of;someone with low control of fire;Fire;12;;1;;7;;
+DamageAbility;Tear;Cuts through skin with raw strenght;;;;;0,85;;;3;;
+DamageAbility;Shoot arrow;Shoots a fast projectile;;;;;0,2;;0,6;2;;
+DamageAbility;Heavy slam;Very hard hit, swings with a lot of;strength;;;;0,6;;0,2;2;;
+DamageBloodStrike;Blood strike;Really powerfull hit that increases;this weapon's strength by 2, but;using it costs 5% of your HP;;;1;;;0;;
+DamageWound;Wound;Inflicts Bleed 3;;;;;0,3;;0,3;3;;
+DamagePoison;Poison cut;15% chance to poision;;;;;0,4;0,4;0,4;3;;15
+DamagePoison;Haze strike;Deals some damage and its bad smell;has a 10% chance to poison;;;5;0,4;0,4;;5;;10

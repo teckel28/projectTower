@@ -1,0 +1,3 @@
+Type;Name;hpMod;mpMod;strMod;magMod;tecMod;defMod;speMod;preMod;evaMod;rarity;description;
+RelicMonsterEater;Monster eater;;;;;;;;;;Rare;When you defeat a monster, gain max HP equal to 10% of your DEF;
+RelicFastKiller;Fast killer;;;;;;;;;;Rare;If you're faster than the enemy monster, deal damage equal to 30% of your TEC;

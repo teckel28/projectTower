@@ -1,0 +1,558 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Threading;
+using System.ComponentModel;
+using System.Collections;
+
+namespace projectTower
+{
+    class GameEvent
+    {
+        public string eventDescription {get; set;}
+
+        public GameEvent(string eventDescription){
+            this.eventDescription = eventDescription;
+        }
+
+        public virtual void Start(){
+            Console.Clear();
+            Program.HUD();
+            Writer.WriteText(eventDescription, 5);
+            Writer.WriteText("[Continue: type 'next']", 13);
+        }
+
+        
+    }
+
+    class MonsterEvent : GameEvent
+    {   
+        Character monster;
+
+        public MonsterEvent(string eventDescription, Character monster) : base(eventDescription)
+            {this.monster = monster;}
+
+        public override void Start()
+        {
+            Console.Clear();
+            monster.UpdateStats();
+            monster.currentHp = monster.maxHp;
+            monster.currentMp = monster.maxMp;
+            Program.HUD();
+            Program.ValidInputs.Remove("desc"); Program.ValidInputs.Remove("equip"); Program.ValidInputs.Remove("rdesc");
+            Program.ValidInputs.Remove("r1"); Program.ValidInputs.Remove("r2"); Program.ValidInputs.Remove("r3"); 
+            Program.ValidInputs.Add("a1"); Program.ValidInputs.Add("a2"); Program.ValidInputs.Add("a3"); Program.ValidInputs.Add("a4");
+
+            Fight();
+            
+            //activate OnBattleEnd abilities---------------------------------------------------------
+            Console.Clear();
+            Program.HUD();
+            foreach (Relic relic in Program.chara.relics)
+            {
+                relic.OnBattleEnd(Program.chara);
+            }
+            
+            
+            if(Program.chara.headEquip != null) Program.chara.headEquip.OnBattleEnd(Program.chara);
+            if (Program.chara.chestEquip != null) Program.chara.chestEquip.OnBattleEnd(Program.chara);
+            if (Program.chara.legsEquip != null) Program.chara.legsEquip.OnBattleEnd(Program.chara);
+            if (Program.chara.feetEquip != null) Program.chara.feetEquip.OnBattleEnd(Program.chara);
+            if (Program.chara.accesoryEquip1 != null) Program.chara.accesoryEquip1.OnBattleEnd(Program.chara);
+            if (Program.chara.accesoryEquip2 != null) Program.chara.accesoryEquip2.OnBattleEnd(Program.chara);
+            if (Program.chara.weapon != null) Program.chara.weapon.OnBattleEnd(Program.chara);
+            if (Program.chara.weapon2 != null) Program.chara.weapon2.OnBattleEnd(Program.chara);
+            //activate OnBattleEnd abilities---------------------------------------------------------
+
+            
+            Program.values = Program.ChooseOptions();
+            //change valid inputs
+            Program.ValidInputs.Add("desc"); Program.ValidInputs.Add("equip"); Program.ValidInputs.Add("rdesc");
+            Program.ValidInputs.Add("r1"); Program.ValidInputs.Add("r2"); Program.ValidInputs.Add("r3"); Program.ValidInputs.Remove("next");
+            Program.ValidInputs.Remove("a1"); Program.ValidInputs.Remove("a2"); Program.ValidInputs.Remove("a3"); Program.ValidInputs.Remove("a4");
+
+        }
+        
+        public void Fight(){
+            string input = "";
+            while(monster.currentHp > 0 && Program.chara.currentHp > 0){
+                Console.Clear();
+                Program.HUD();
+                DisplayMonster();
+
+                //read input
+                input = Console.ReadLine();
+                //checking validiy-----------------------------------
+                while(!Program.ValidInputs.Contains(input)){
+                    Writer.WriteText("Please enter a valid command", 36);
+                    Console.SetCursorPosition(0, 35);
+                    input = Console.ReadLine();
+                }
+                //^^^^^ checking validiy-----------------------------
+                
+                if(Program.chara.speed >= monster.speed){
+                    Console.ForegroundColor = ConsoleColor.DarkGreen;
+                    SwitchInput(input, 11);
+
+                    Program.HUD();
+                    DisplayMonster();
+                    Writer.WriteText("[Next turn: press any key]", 15);
+                    Console.ReadKey();
+                    if(monster.currentHp <= 0 || Program.chara.currentHp <= 0) break;
+
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    ChooseEnemyAbility(18);
+                } else {
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    ChooseEnemyAbility(11);
+
+                    Program.HUD();
+                    DisplayMonster();
+                    Writer.WriteText("[Next turn: press any key]", 16);
+                    Console.ReadKey();
+                    if(monster.currentHp <= 0 || Program.chara.currentHp <= 0) break;
+
+                    Console.ForegroundColor = ConsoleColor.DarkGreen;
+                    SwitchInput(input, 18);
+                    
+                }
+                Program.HUD();
+                DisplayMonster();
+                Writer.WriteText("[Next turn: press any key]", 22);
+                Console.ReadKey();
+                EndOfTurn();
+                Writer.WriteText("[Next turn: press any key]", 13);
+                Console.ReadKey();
+                
+            }
+            //death
+            if(Program.chara.currentHp <= 0){
+                Console.Clear();
+                Program.HUD();
+                Writer.WriteText("You died [Damn, accept: Press any key]", 5);
+                Console.ReadKey();
+                Environment.Exit(0);
+            }
+            //win
+            Writer.WriteText("You defeated the enemy " + monster.name, 24);
+            Equipment loot = ChooseLoot();
+            int goldLoot = 0;
+            switch (Program.floor)
+            {
+                case 0: goldLoot = Program.random.Next(1, 6); break;
+                case 1: goldLoot = Program.random.Next(5, 11); break;
+                case 2: goldLoot = Program.random.Next(15, 25); break;
+                case 3: goldLoot = Program.random.Next(30, 51); break;
+            }
+            Writer.WriteText("It dropped " + loot.itemName + " and " + goldLoot + " gold", 25);
+            Writer.WriteText("You earned 3 exp", 26);
+            Writer.WriteText("[Pick up: press any key]", 27);
+            Console.ReadKey();
+            Program.chara.inventory.Add(loot);
+            Program.chara.gold += goldLoot;
+            Program.chara.exp += 3;
+            
+        }
+
+        public void DisplayMonster(){
+            monster.UpdateStats();
+            Writer.WriteText(monster.name + " stats:", 6);
+            Writer.WriteText("          ", 7);
+            if(monster.currentHp < 0) monster.currentHp = 0;
+            Writer.WriteText("HP: " + monster.currentHp + "/" + monster.maxHp + " Stats: " + monster.strength + "/" + monster.magic + "/" + monster.technique, 7);
+            Writer.WriteText("Evasion: " + monster.evasion + " DEF: " + monster.defense + " PRE: " + monster.precision, 8);
+            Writer.WriteText("SPE: " + monster.speed + " MP: " + monster.currentMp + "/" + monster.maxMp, 9);
+        }
+
+        public void SwitchInput(string input, int line){
+            switch (input)
+            {
+                case "a1":
+                    Program.chara.weapon.ability1.UseAbility(Program.chara, monster, line);
+                break;
+                case "a2":
+                    Program.chara.weapon.ability2.UseAbility(Program.chara, monster, line);
+                break;
+                case "a3":
+                    Program.chara.weapon2.ability1.UseAbility(Program.chara, monster, line);
+                break;
+                case "a4":
+                    Program.chara.weapon2.ability2.UseAbility(Program.chara, monster, line);
+                break;
+            }
+        }
+
+        public void ChooseEnemyAbility(int line){
+            int chosenAb; int roll = 0;
+            if(monster.weapon2 == null){    
+                if(monster.weapon.ability2 is NullAbility || monster.currentMp < monster.weapon.ability2.mpCost)       //just 1 weapon and w1a2 is null------------------a1
+                {
+                    chosenAb = 1;
+                }
+                else                                                                                                    //just 1 weapon and w1 has a2---------------------a1 a2
+                {
+                    roll = Program.random.Next(1, 3);
+                    chosenAb = roll;
+                }                                                                                               
+            } else {
+                if(monster.weapon.ability2 is NullAbility || monster.currentMp < monster.weapon.ability2.mpCost){
+                    if(monster.weapon2.ability2 is NullAbility || monster.currentMp < monster.weapon2.ability2.mpCost){//2 weapons and both a2 are null-------------a1    a3 
+                        if(monster.currentMp < monster.weapon2.ability1.mpCost){
+                            chosenAb = 1;
+                        }else{
+                            roll = Program.random.Next(1, 3);
+                            if (roll == 1)
+                                chosenAb = 1;
+                            else
+                                chosenAb = 3;
+                        }    
+                    }else{                                                                                              //2 weapons and w1a1 is null-----------------a1    a3 a4
+                        roll = Program.random.Next(1, 4);
+                        if(roll == 1)
+                            chosenAb = 1;
+                        else if(roll == 2)
+                            chosenAb = 3;
+                        else
+                            chosenAb = 4;
+                    }
+                }else{
+                    if(monster.weapon2.ability2 is NullAbility || monster.currentMp < monster.weapon2.ability2.mpCost){//2 weapons and  w2a2 are null---------------a1 a2 a3 
+                        roll = Program.random.Next(1, 4);
+                        chosenAb = roll;
+                    }else{                                                                                              //2 weapons and none is null-----------------a1 a2 a3 a4
+                        roll = Program.random.Next(1, 5);
+                        chosenAb = roll;
+                    }
+                }
+
+            }
+            switch (chosenAb)
+            {
+                case 1:
+                    monster.weapon.ability1.UseAbility(monster, Program.chara, line);
+                break;
+                case 2:
+                    monster.weapon.ability2.UseAbility(monster, Program.chara, line);
+                break;
+                case 3:
+                    monster.weapon2.ability1.UseAbility(monster, Program.chara, line);
+                break;
+                case 4:
+                    monster.weapon2.ability2.UseAbility(monster, Program.chara, line);
+                break;
+                
+            }
+        }
+
+        public void EndOfTurn(){
+            Writer.WriteText("End of turn effects: ", 5);
+
+
+            foreach (Relic relic in Program.chara.relics)
+            {
+                relic.OnTurnEnd(Program.chara, monster);
+            }
+            if (Program.chara.headEquip != null) Program.chara.headEquip.OnTurnEnd(Program.chara, monster);
+            if (Program.chara.chestEquip != null) Program.chara.chestEquip.OnTurnEnd(Program.chara, monster);
+            if (Program.chara.legsEquip != null) Program.chara.legsEquip.OnTurnEnd(Program.chara, monster);
+            if (Program.chara.feetEquip != null) Program.chara.feetEquip.OnTurnEnd(Program.chara, monster);
+            if (Program.chara.accesoryEquip1 != null) Program.chara.accesoryEquip1.OnTurnEnd(Program.chara, monster);
+            if (Program.chara.accesoryEquip2 != null) Program.chara.accesoryEquip2.OnTurnEnd(Program.chara, monster);
+            if (Program.chara.weapon != null) Program.chara.weapon.OnTurnEnd(Program.chara, monster);
+            if (Program.chara.weapon2 != null) Program.chara.weapon2.OnTurnEnd(Program.chara, monster);
+
+
+            Console.Clear();
+            Program.HUD();
+            Writer.WriteText("End of turn effects: ", 5);
+            //bleed dmg
+            if(Program.chara.bleed != 0 || monster.bleed != 0){
+                
+                if (Program.chara.bleed != 0){
+                    Writer.WriteText(Program.chara.name + " loses " + Program.chara.bleed + " HP due to bleeding. The wound heals a little.", 7);
+                    Program.chara.currentHp -= Program.chara.bleed;
+                    Program.chara.bleed--;
+                }
+                if(monster.bleed != 0){
+                    Writer.WriteText(monster.name + " loses " + monster.bleed + " HP due to bleeding. The wound heals a little.", 9);
+                    monster.currentHp -= monster.bleed;
+                    monster.bleed--;
+                }
+
+                Writer.WriteText("[Continue: press any key]", 11);
+                Console.ReadKey();
+            }
+            //poison dmg
+            if(Program.chara.poison || monster.poison){
+                if (Program.chara.poison)
+                {
+                    Program.chara.poisonStack++;
+                    Writer.WriteText(Program.chara.name + " loses " + Program.chara.poisonStack + " HP due to poison. The poison worsens.", 7);
+                    Program.chara.currentHp -= Program.chara.poisonStack;
+
+                    if (Program.random.Next(1, 101) <= Program.chara.antidoteChance)
+                    {
+                        Writer.WriteText("The poison is cured!", 8);
+                        Program.chara.poison = false;
+                        Program.chara.poisonStack = 0;
+                    }
+                }
+                if (monster.poison)
+                {
+                    monster.poisonStack++;
+                    Writer.WriteText(monster.name + " loses " + monster.poisonStack + " HP due to poison. The poison worsens.", 9);
+                    monster.currentHp -= monster.poisonStack;
+
+                    if (Program.random.Next(1, 101) <= monster.antidoteChance)
+                    {
+                        Writer.WriteText("The poison is cured!", 10);
+                        monster.poison = false;
+                        monster.poisonStack = 0;
+                    }
+                }
+
+                Writer.WriteText("[Continue: press any key]", 11);
+                Console.ReadKey();
+            }
+            
+        }
+
+        //adds all non null equipment to list and takes a random one
+        public Equipment ChooseLoot(){
+            Equipment loot;
+            List<Equipment> possibleLoot = new List<Equipment>();
+
+            if(monster.headEquip != null) possibleLoot.Add(monster.headEquip);
+            if(monster.chestEquip != null) possibleLoot.Add(monster.chestEquip);
+            if(monster.legsEquip != null) possibleLoot.Add(monster.legsEquip);
+            if(monster.feetEquip != null) possibleLoot.Add(monster.feetEquip);
+            if(monster.accesoryEquip1 != null) possibleLoot.Add(monster.accesoryEquip1);
+            if(monster.accesoryEquip2 != null) possibleLoot.Add(monster.accesoryEquip2);
+            if(monster.weapon != null) possibleLoot.Add(monster.weapon);
+            if(monster.weapon2 != null) possibleLoot.Add(monster.weapon2);
+            loot = possibleLoot[Program.random.Next(0, possibleLoot.Count())];
+            return loot;
+        }
+    }
+
+    class LootEvent : GameEvent{
+        
+        Equipment item1;
+        Equipment? item2;
+        Equipment? item3;
+
+        public LootEvent(string eventDescription, Equipment item1, Equipment? item2, Equipment? item3) : base (eventDescription){
+            this.item1 = item1;
+            this.item2 = item2;
+            this.item3 = item3;
+        }
+
+        public override void Start()
+        {
+            Console.Clear();
+            Program.HUD();
+            Writer.WriteText("You encounter the following items: ", 5);
+            Writer.WriteText(item1.itemName, 6);
+            if(item2 != null) Writer.WriteText(item2.itemName, 7);
+            if(item3 != null) Writer.WriteText(item3.itemName, 8);
+
+            Writer.WriteText("[Pick up: press any key]", 13);
+            Console.ReadKey();
+            Program.chara.inventory.Add(item1);
+            if(item2 != null) Program.chara.inventory.Add(item2);
+            if(item3 != null) Program.chara.inventory.Add(item3);
+
+            Program.chara.exp++;
+            Program.values = Program.ChooseOptions();
+        }
+    }
+
+    class ShopEvent : GameEvent{
+        List<Item?> shopItems = new List<Item?>();
+        public ShopEvent(string eventDescription, List<Item?> shopItems) : base(eventDescription){
+            this.shopItems = shopItems;
+        }
+
+        public override void Start()
+        {
+            
+            Console.Clear();
+            Program.HUD();
+
+            Program.ValidInputs.Remove("r1"); Program.ValidInputs.Remove("r2"); Program.ValidInputs.Remove("r3");
+            Program.ValidInputs.Add("buy"); Program.ValidInputs.Add("done");
+            Program.ValidInputs.Add("sell"); Program.ValidInputs.Add("sdesc");
+
+            ShopLoop();
+            
+            Program.values = Program.ChooseOptions();
+
+            Program.ValidInputs.Add("r1"); Program.ValidInputs.Add("r2"); Program.ValidInputs.Add("r3");
+            Program.ValidInputs.Remove("buy"); Program.ValidInputs.Remove("done");
+            Program.ValidInputs.Remove("sell"); Program.ValidInputs.Remove("sdesc");
+        }       
+
+        public void ShopLoop(){
+            string input = "";
+            while(input != "done"){
+                Console.Clear();
+                Program.HUD();
+                PrintShop();
+
+                //read input
+                input = Console.ReadLine();
+                Writer.WriteText("               ", 35);
+                //checking validiy-----------------------------------
+                while(!Program.ValidInputs.Contains(input)){
+                    Writer.WriteText("Please enter a valid command", 36);
+                    Console.SetCursorPosition(0, 35);
+                    input = Console.ReadLine();
+                    Writer.WriteText("               ", 35);
+                }
+                //^^^^^ checking validiy-----------------------------
+                switch (input)
+                {
+                    case "buy":
+                        Writer.WriteText("Which item would you like to buy? [Type '0'-'5']", 22);
+                        //read input
+                        input = Console.ReadLine(); int itemBought = 0;
+                        Writer.WriteText("                   ", 35);
+                        //checking validiy-----------------------------------
+                        while (!Int32.TryParse(input, out itemBought) || itemBought < 0 || itemBought > 5 || shopItems[itemBought] == null)
+                        {
+                            Writer.WriteText("That's not an item you can buy", 36);
+                            Console.SetCursorPosition(0, 35);
+                            input = Console.ReadLine();
+                            Writer.WriteText("                 ", 35);
+                        }
+                        //^^^^^ checking validiy-----------------------------
+                        if(shopItems[itemBought].price * 2 > Program.chara.gold){
+                            Writer.WriteText("You can't afford this [Continue: press any key]", 24);
+                        } else {
+                            BuyItem(itemBought);
+                        }
+                    break;
+                    case "sell":
+                        Writer.WriteText("Which item would you like to sell? [Type number in inventory]", 22);
+                        //read input
+                        input = Console.ReadLine(); int itemSold = 0;
+                        Writer.WriteText("                         ", 35);
+                        //checking validiy-----------------------------------
+                        while (!Int32.TryParse(input, out itemSold) || itemSold < 0 || itemSold >= Program.chara.inventory.Count())
+                        {
+                            Writer.WriteText("That's not an item you can sell", 36);
+                            Console.SetCursorPosition(0, 35);
+                            input = Console.ReadLine();
+                            Writer.WriteText("                         ", 35);
+                        }
+                        //^^^^^ checking validiy-----------------------------
+                        SellItem(itemSold);
+                    break;
+                    case "equip":
+                        Program.CommandEquip();
+                    break;
+                    case "desc":
+                        Program.CommandDesc();
+                    break;
+                    case "rdesc":
+                        Program.CommandRelicDesc();
+                    break;
+                    case "sdesc":
+                        CommandShopDesc();
+                    break;
+                }
+                
+            }
+            Program.chara.exp++;
+        }
+
+        public void PrintShop(){
+            Writer.WriteText("Welcome to the shop, please take your time", 5);
+            Writer.WriteText("Available items:", 6);
+            for (int i = 0; i < 6; i++)
+            {
+                if(shopItems[i] != null)
+                    Writer.WriteText(i + ": " + shopItems[i].itemName + " (" + shopItems[i].rarity + ") - " + shopItems[i].price*2 + " gold", 8+i);
+            }
+            Writer.WriteText("Buy an item: [type command 'buy']", 15);
+            Writer.WriteText("Sell an item: [type command 'sell']", 16);
+            Writer.WriteText("Equip an item: [type command 'equip']", 17);
+            Writer.WriteText("See an inventory item description: [type command 'desc']", 18);
+            Writer.WriteText("See a relic description: [type command 'rdesc']", 19);
+            Writer.WriteText("See a shop item description: [type command 'sdesc']", 20);
+        }
+
+        public void BuyItem(int item){
+            string itemName = shopItems[item].itemName;
+            Program.chara.gold -= shopItems[item].price*2;
+            if(shopItems[item] is Equipment shopEquip) Program.chara.inventory.Add(shopEquip);
+            else if(shopItems[item] is Relic shopRelic) Program.chara.relics.Add(shopRelic);
+            shopItems[item] = null;
+            Console.Clear();
+            Program.HUD();
+            Writer.WriteText("You bought " + itemName, 5);
+            Writer.WriteText("[Continue: press any key]", 7);
+            Console.ReadKey();
+        }
+
+        public void SellItem(int item){
+            string itemName = Program.chara.inventory[item].itemName;
+            Program.chara.gold += Program.chara.inventory[item].price;
+            //unequip if sold item is equipped
+            if(System.Object.ReferenceEquals(Program.chara.headEquip, Program.chara.inventory[item])) Program.chara.headEquip = null;
+            if(System.Object.ReferenceEquals(Program.chara.chestEquip, Program.chara.inventory[item])) Program.chara.chestEquip = null;
+            if(System.Object.ReferenceEquals(Program.chara.legsEquip, Program.chara.inventory[item])) Program.chara.legsEquip = null;
+            if(System.Object.ReferenceEquals(Program.chara.feetEquip, Program.chara.inventory[item])) Program.chara.feetEquip = null;
+            if(System.Object.ReferenceEquals(Program.chara.accesoryEquip1, Program.chara.inventory[item])) Program.chara.accesoryEquip1 = null;
+            if(System.Object.ReferenceEquals(Program.chara.accesoryEquip2, Program.chara.inventory[item])) Program.chara.accesoryEquip2 = null;
+            if(System.Object.ReferenceEquals(Program.chara.weapon, Program.chara.inventory[item])) Program.chara.weapon = null;
+            if(System.Object.ReferenceEquals(Program.chara.weapon2, Program.chara.inventory[item])) Program.chara.weapon2 = null;
+            
+            Program.chara.inventory.Remove(Program.chara.inventory[item]);
+            Console.Clear();
+            Program.HUD();
+            Writer.WriteText("You sold " + itemName, 5);
+            Writer.WriteText("[Continue: press any key]", 7);
+            Console.ReadKey();
+        }
+
+        public void CommandShopDesc(){
+            Writer.WriteText("Which shop item do you wish to see?", 22);
+            Writer.WriteText("[Type the number '0'-'5']", 24);
+
+            string item = "";
+            Console.SetCursorPosition(0, 35);
+            item = Console.ReadLine();
+            int itemNum = 0;
+            while (!Int32.TryParse(item, out itemNum) || itemNum < 0 || itemNum > 5 || shopItems[itemNum] == null)
+            {
+                Console.SetCursorPosition(0, 35);
+                Console.WriteLine("That's not an item you can see");
+                item = Console.ReadLine();
+            }
+            Writer.WriteText(shopItems[itemNum].itemName + ":", 26);
+            Writer.WriteText(shopItems[itemNum].description, 28);
+            Writer.WriteText("[Continue: press any key]", 30);
+            Console.ReadKey();
+        }
+    }
+
+    class CampfireEvent : GameEvent{
+        public CampfireEvent(string eventDescription) : base(eventDescription){}
+
+        public override void Start()
+        {
+            Console.Clear();
+            Program.HUD();
+            Writer.WriteText(eventDescription, 5);
+            CampLoop();
+            Program.ChooseOptions();
+        }
+
+        public void CampLoop(){
+
+        }
+    }
+}

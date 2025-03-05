@@ -1,0 +1,33 @@
+Type;Name;hpMod;mpMod;strMod;magMod;tecMod;defMod;speMod;preMod;evaMod;rarity;description;Tags;Price;isHeavy;ability1;ability2
+WeaponEquipment;Goblin knife;;;;;;;3;1;;Common;A weapon for a quick little rascal [+3 SPE, +1 PRE];Goblin,Knife;2;NO;Slash;Stab
+FeetEquipment;Gobo boots;;;;;;;2;;;Common;They feel like they could fall apart at any moment [+2 SPE];Goblin;1;;;
+HeadEquipment;Gobo hat;;;;;;;;;;Common;Does nothing, some people might find it fashionable. I say just sell it. Unless you like it.;Goblin;5;;;
+WeaponEquipment;Fluid weapon;;2;;;;1;;;;Common;Some people say it feels good to touch... love it or hate it type of thing [+2 MP, +1 DEF];;2;NO;Slime strike;Conjure fluid
+AccesoryEquipment;Slime core;5;2;;3;;;;;;Common;Raises a lot of philosophical questions about existance, don't think too hard [+5 HP, +2 MP, +3 MAG];Core;3;;;
+WeaponEquipment;Rat fang;;;1;;;;;1;;Common;Wow, you really just pulled it out huh [+1 STR];Beast,Knife;1;NO;Stab;
+ChestEquipment;Rat fur;;;1;;;1;1;;;Common;Will cover you just fine, maybe not the most hygenic though [+1 STR, +1 DEF, +1 SPE];Pelt;5;;;
+HeadEquipment;Helmet;;;;;;1;;;;Common;Really worn out helmet [+1 DEF];;2;;;
+FeetEquipment;Kobold sandals;;;;;;;3;;1;Common;Great for running away [+3 SPE, +1 EVA];Draconic;3;;;
+AccBabyDracoSoul;Baby draco soul;;5;;5;;;;;;Uncommon;Fire abilies deal +3 damage [+5 MP, +5 MAG];Core,Draconic;7;;;
+WeaponEquipment;Spear;;;;;;;1;1;1;Common;Classic weapon for keeping your distance [+1 SPE, +1 PRE, +1 EVA] [2 Hands];;3;YES;Stab;Pierce flurry
+WeaponEquipment;Baby breath weapon;3;3;;2;;;;;;Uncommon;Lets you shoot a really energy inefficient fire breath [+3 HP, +3MP, +2 MAG];Draconic;7;NO;Baby fire breath;
+ChestEquipment;Wolf fur;4;;1;;;1;;;;Common;Keeps you nice and warm, sells for a good price [+4 HP, +1 STR, +1 DEF];Pelt;5;;;
+WeaponEquipment;Wolf fang;;;2;;;;;1;;Common;Not quite a fang yet, but still does a good job [+2 STR, +1 PRE];Beast,Knife;1;NO;Stab;Tear
+AccGloves;Gloves;;;;;1;;;1;;Uncommon;Gives +2 precision when using a 2 handed weapon [+1 TEC, +1 PRE];;3;;;
+WeaponEquipment;Old bow;;;;;;;;;1;Common;Requires great technique [+1 EVA];;3;YES;Shoot arrow;
+WeaponEquipment;Old greatsword;;;;;;1;;;;Common;Requieres great strength [+1 DEF];;3;YES;Heavy slam;Slash
+SpikeChest;Spiked chestplate;;;;;;2;;;1;Uncommon;When you take damage from an enemy, deal 1 damage to it [+2 DEF, +1 EVA];;5;;;
+AccMagicScarf;Magic scarf;;;;;;;;;;Uncommon;Give 10% MAG scaling to your attacks;;5;;;
+FeetArcaneBoots;Arcane boots;;;;;;;;;;Uncommon;Gain 10% of your MAG as SPE;;6;;;
+AccSnackPouch;Snack pouch;;;;;;;;;;Uncommon;After every battle, recover 5 HP;;1;;;
+WeaponBloodSword;Blood sword;;;;;;;;;;Rare;Gains +4 STR after every battle;;10;YES;Slash;Blood strike
+WeaponEquipment;Refined wooden sword;;;20;;10;;;;;Epic;Perfect weapon for a true warrior [+20 STR, +10 TEC];Sword;70;NO;Slash;
+ChestEquipment;Diamond chestplate;;;;;;30;;;;Legendary;Cuidao q boi full diamante [+30 DEF];Diamond;100;;;
+AccBloodlustAmulet;Bloodlust amulet;;;;;;;;;;Rare;When you deal damage, give the enemy 2 Bleed;Bleed;9;;;
+HeadEquipment;Beast skull;10;;;;;;;;;Uncommon;Looks evil af [+10 HP];2;3;;;
+WeaponEquipment;Wolf claw;;;4;;;;;2;;Uncommon;More effective than the fang, can Bleed the enemy;Beast,Knife;7;NO;Wound;
+HeadRatCrown;Rat crown;7;5;;;;;;;;Uncommon;If you're holding a Beast item, +5 STR [+7 HP, +5 MP];;7;;;
+LegsKingBelt;King belt;5;5;;;;;;;;Uncommon;If you're holding a Beast item, +10 MAG [+5 HP, +5 MP];;7;;;
+WeaponEquipment;Rat claw;;2;1;3;;;;1;;Uncommon;Inflicts poisonous attacks [+2 MP, +1 STR, +3 MAG, +1 PRE];Beast,Knife;7;NO;Poison cut;
+WeaponEquipment;Troll stick;;;7;5;;4;;;;Uncommon;Unga unga weapon [+7 STR, +5 MAG, +4 DEF];Big;12;YES;Heavy slam;Haze strike
+LegsTrollRags;Troll rags;10;5;;;;;;;;Uncommon;If the enemy is poisioned when you attack, you gain +10 STR;;9;;;

@@ -1,0 +1,14 @@
+C:\Users\Benja\Documents\thing\projectTower\bin\Debug\net9.0\projectTower.exe
+C:\Users\Benja\Documents\thing\projectTower\bin\Debug\net9.0\projectTower.deps.json
+C:\Users\Benja\Documents\thing\projectTower\bin\Debug\net9.0\projectTower.runtimeconfig.json
+C:\Users\Benja\Documents\thing\projectTower\bin\Debug\net9.0\projectTower.dll
+C:\Users\Benja\Documents\thing\projectTower\bin\Debug\net9.0\projectTower.pdb
+C:\Users\Benja\Documents\thing\projectTower\obj\Debug\net9.0\projectTower.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Benja\Documents\thing\projectTower\obj\Debug\net9.0\projectTower.AssemblyInfoInputs.cache
+C:\Users\Benja\Documents\thing\projectTower\obj\Debug\net9.0\projectTower.AssemblyInfo.cs
+C:\Users\Benja\Documents\thing\projectTower\obj\Debug\net9.0\projectTower.csproj.CoreCompileInputs.cache
+C:\Users\Benja\Documents\thing\projectTower\obj\Debug\net9.0\projectTower.dll
+C:\Users\Benja\Documents\thing\projectTower\obj\Debug\net9.0\refint\projectTower.dll
+C:\Users\Benja\Documents\thing\projectTower\obj\Debug\net9.0\projectTower.pdb
+C:\Users\Benja\Documents\thing\projectTower\obj\Debug\net9.0\projectTower.genruntimeconfig.cache
+C:\Users\Benja\Documents\thing\projectTower\obj\Debug\net9.0\ref\projectTower.dll
