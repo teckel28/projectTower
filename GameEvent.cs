@@ -545,25 +545,148 @@ namespace projectTower
         public override void Start()
         {
             Program.ValidInputs.Remove("r1"); Program.ValidInputs.Remove("r2"); Program.ValidInputs.Remove("r3");
+            Program.ValidInputs.Remove("equip"); Program.ValidInputs.Remove("desc"); Program.ValidInputs.Remove("rdesc");
             Program.ValidInputs.Add("rest");Program.ValidInputs.Add("fullrest");Program.ValidInputs.Add("hp");Program.ValidInputs.Add("mp");
+            Program.ValidInputs.Add("str");Program.ValidInputs.Add("mag");Program.ValidInputs.Add("tec");Program.ValidInputs.Add("def");Program.ValidInputs.Add("spe");
+            Program.ValidInputs.Add("pre");Program.ValidInputs.Add("eva");
             CampLoop();
             Program.ChooseOptions();
+            Program.ValidInputs.Add("r1"); Program.ValidInputs.Add("r2"); Program.ValidInputs.Add("r3");
+            Program.ValidInputs.Add("equip"); Program.ValidInputs.Add("desc"); Program.ValidInputs.Add("rdesc");
+            Program.ValidInputs.Remove("rest");Program.ValidInputs.Remove("fullrest");Program.ValidInputs.Remove("hp");Program.ValidInputs.Remove("mp");
+            Program.ValidInputs.Remove("str");Program.ValidInputs.Remove("mag");Program.ValidInputs.Remove("tec");Program.ValidInputs.Remove("def");Program.ValidInputs.Remove("spe");
+            Program.ValidInputs.Remove("pre");Program.ValidInputs.Remove("eva");
         }
 
         public void CampLoop(){
+            
             Console.Clear();
             Program.HUD();
             Writer.WriteText(eventDescription, 5);
-            Writer.WriteText("Rest and recover 30% of your HP and MP: [type command 'rest']", 7);
-            Writer.WriteText("Rest and recover all of your HP and MP (no EXP this room): [type command 'fullrest']", 9);
-            Writer.WriteText("Gain +15 maxHP/maxMP: [type command 'hp'/'mp']", 11);
-            Writer.WriteText("Gain +3 STR/MAG/TEC/DEF/SPE: [type command 'str'/'mag'/'tec'/'def'/'spe']", 13);
-            Writer.WriteText("Gain +1 PRE/EVA (no EXP this room): [type command 'pre'/'eva']", 15);
-            Writer.WriteText("Equip an item: [type command 'equip']", 17);
-            Writer.WriteText("See an inventory item description: [type command 'desc']", 19);
-            Writer.WriteText("See a relic description: [type command 'rdesc']", 21);
+            Writer.WriteText("Rest and recover 30% of your HP and MP: ", 7);
+            Writer.WriteText("[type command 'rest']", 8);
+            Writer.WriteText("Rest and recover all of your HP and MP (no EXP this room):", 10);
+            Writer.WriteText("[type command 'fullrest']", 11);
+            Writer.WriteText("Gain +15 maxHP/maxMP: ", 13);
+            Writer.WriteText("[type command 'hp'/'mp']", 14);
+            Writer.WriteText("Gain +3 STR/MAG/TEC/DEF/SPE: ", 16);
+            Writer.WriteText("[type command 'str'/'mag'/'tec'/'def'/'spe']", 17);
+            Writer.WriteText("Gain +1 PRE/EVA (no EXP this room): ", 19);
+            Writer.WriteText("[type command 'pre'/'eva']", 20);
 
+            //read input
+            string input = "";
+            input = Console.ReadLine();
+            Writer.WriteText("               ", 35);
+            //checking validiy-----------------------------------
+            while (!Program.ValidInputs.Contains(input))
+            {
+                Writer.WriteText("Please enter a valid command", 36);
+                Console.SetCursorPosition(0, 35);
+                input = Console.ReadLine();
+                Writer.WriteText("               ", 35);
+            }
+            //^^^^^ checking validiy-----------------------------
+
+            switch (input){
+                case "rest": 
+                    int restoreHp = (int)(Program.chara.currentHp*0.3m);
+                    int restoreMp = (int)(Program.chara.currentMp*0.3m);
+                    Program.chara.currentHp += restoreHp;
+                    if(Program.chara.currentHp >= Program.chara.maxHp) Program.chara.currentHp = Program.chara.maxHp;
+                    Program.chara.currentMp += restoreMp;
+                    if(Program.chara.currentMp >= Program.chara.maxMp) Program.chara.currentMp = Program.chara.maxMp;
+                    Console.Clear();
+                    Program.HUD();
+                    Writer.WriteText("You sat by the fire and restored some Hp and Mp", 5);
+                    Program.chara.exp++;
+                break;
+
+                case "fullrest":
+                    Program.chara.currentHp = Program.chara.maxHp;
+                    Program.chara.currentMp = Program.chara.maxMp;
+                    Console.Clear();
+                    Program.HUD();
+                    Writer.WriteText("You set up a safe space and sleep to recover fully", 5);
+                break;
+
+                case "hp": 
+                    Program.chara.basehp += 15;
+                    Program.chara.currentHp += 15;
+                    Console.Clear();
+                    Program.HUD();
+                    Writer.WriteText("You do some stamina exercises to train your endurance, +15 max HP", 5);
+                    Program.chara.exp++;
+                break;
+
+                case "mp":
+                    Program.chara.basemp += 15;
+                    Program.chara.currentMp += 15;
+                    Console.Clear();
+                    Program.HUD();
+                    Writer.WriteText("You do some meditation to train your mana, +15 max MP", 5);
+                    Program.chara.exp++;
+                break;
+                
+                case "str":
+                    Program.chara.relics[0].strMod += 3;
+                    Console.Clear();
+                    Program.HUD();
+                    Writer.WriteText("You lift some heavy weight and improve your physique, +3 STR", 5);
+                    Program.chara.exp++;
+                break;
+                
+                case "mag":
+                    Program.chara.relics[0].magMod += 3;
+                    Console.Clear();
+                    Program.HUD();
+                    Writer.WriteText("You read some books and improve your magical talent, +3 MAG", 5);
+                    Program.chara.exp++;
+                break;
+                
+                case "tec":
+                    Program.chara.relics[0].tecMod += 3;
+                    Console.Clear();
+                    Program.HUD();
+                    Writer.WriteText("You train with your weapon and improve your skill with it, +3 TEC", 5);
+                    Program.chara.exp++;
+                break;
+
+                case "def":
+                    Program.chara.relics[0].defMod += 3;
+                    Console.Clear();
+                    Program.HUD();
+                    Writer.WriteText("You burn yourself with the fire and improve your resistance, +3 DEF", 5);
+                    Program.chara.exp++;
+                break;
+
+                case "spe":
+                    Program.chara.relics[0].speedMod += 3;
+                    Console.Clear();
+                    Program.HUD();
+                    Writer.WriteText("You jog for a bit and improve your quickness, +3 SPE", 5);
+                    Program.chara.exp++;
+                break;
+
+                case "pre":
+                    Program.chara.relics[0].precMod += 1;
+                    Console.Clear();
+                    Program.HUD();
+                    Writer.WriteText("You shoot at a target and improve your aim, +1 PRE", 5);
+                break;
+
+                case "eva":
+                    Program.chara.relics[0].evaMod += 1;
+                    Console.Clear();
+                    Program.HUD();
+                    Writer.WriteText("You listen to your instincts and improve your reflexes, +1 EVA", 5);
+                break;
+                
+            }
+
+            Console.WriteLine("Continue journey: [Press any key]", 6);
+            Console.ReadKey();
 
         }
-    }
+        }
 }

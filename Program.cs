@@ -508,7 +508,7 @@ namespace projectTower
                             values[i+3] = random.Next(tierRanges[floor*3], tierRanges[floor*3 + 2]);
                         }
                     */
-                    values[i+3] = random.Next(1, CSVmonsters.Count());
+                        values[i+3] = random.Next(1, CSVmonsters.Count());
                     break;
                     case 2: //loot room
                         int lootRarity = random.Next(1, 101); 
