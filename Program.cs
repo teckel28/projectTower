@@ -495,9 +495,9 @@ namespace projectTower
                 switch (values[i])
                 {
                     case 1://monster room
-                    /*
+                    
                         //tier value is how many monsters are in that tier
-                        int tier1 = 1 + 8; //floor 1 easy
+                        int tier1 = 1 + 7; //floor 1 easy
                         int tier2 = tier1 + 3; //floor 1 hard
                         int tier3 = tier2 + 5 + 0; //floor 2 easy
                         int[] tierRanges = {1, tier1, tier2, tier2 + 5, tier3};
@@ -507,8 +507,7 @@ namespace projectTower
                         } else {
                             values[i+3] = random.Next(tierRanges[floor*3], tierRanges[floor*3 + 2]);
                         }
-                    */
-                        values[i+3] = random.Next(1, CSVmonsters.Count());
+                    
                     break;
                     case 2: //loot room
                         int lootRarity = random.Next(1, 101); 
