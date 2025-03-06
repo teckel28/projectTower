@@ -98,7 +98,7 @@ namespace projectTower
 
                     Program.HUD();
                     DisplayMonster();
-                    Writer.WriteText("[Next turn: press any key]", 15);
+                    Writer.WriteText("[Next turn: press any key]", 16);
                     Console.ReadKey();
                     if(monster.currentHp <= 0 || Program.chara.currentHp <= 0) break;
 
@@ -120,7 +120,7 @@ namespace projectTower
                 }
                 Program.HUD();
                 DisplayMonster();
-                Writer.WriteText("[Next turn: press any key]", 22);
+                Writer.WriteText("[Next turn: press any key]", 23);
                 Console.ReadKey();
                 EndOfTurn();
                 Writer.WriteText("[Next turn: press any key]", 13);
@@ -136,6 +136,7 @@ namespace projectTower
                 Environment.Exit(0);
             }
             //win
+            Program.chara.bleed = 0; Program.chara.poison = false; Program.chara.poisonStack = 0;
             Writer.WriteText("You defeated the enemy " + monster.name, 24);
             Equipment loot = ChooseLoot();
             int goldLoot = 0;
