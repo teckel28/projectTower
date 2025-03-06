@@ -227,9 +227,7 @@ namespace projectTower{
         public override void OnAbilityHit(Character user, Character target, int line)
         {
             if(!target.poison && Program.random.Next(1, 101) <= poisonChance){
-                Writer.WriteText("The target was poisoned", line +3);
-                Writer.WriteText("[Continue: press any key]", line + 5);
-                Console.ReadKey();
+                Writer.WriteText("The target was poisoned", line + 3);
                 target.poison = true;
             }
         }
