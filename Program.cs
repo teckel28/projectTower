@@ -752,39 +752,8 @@ namespace projectTower
         public static void SwitchInstance(string room, int op, ref GameEvent currEvent){
             switch (room){
                 case "MonsterEvent":
-                    //take stats from monster sheet and assign it to monster values
-                    string monName = CSVmonsters[values[op+3]][0];
-                    int monHP = Convert.ToInt32(CSVmonsters[values[op+3]][1]);
-                    int monMP = Convert.ToInt32(CSVmonsters[values[op+3]][2]);
-                    int monSTR = Convert.ToInt32(CSVmonsters[values[op+3]][3]);
-                    int monMAG = Convert.ToInt32(CSVmonsters[values[op+3]][4]);
-                    int monTEC = Convert.ToInt32(CSVmonsters[values[op+3]][5]);
-                    int monDEF = Convert.ToInt32(CSVmonsters[values[op+3]][6]);
-                    int monSPE = Convert.ToInt32(CSVmonsters[values[op+3]][7]);
-                    int monPRE = Convert.ToInt32(CSVmonsters[values[op+3]][8]);
-                    int monEVA = Convert.ToInt32(CSVmonsters[values[op+3]][9]);
-                    Relic monSoul = new Relic("Monster soul", monHP, monMP, monSTR, monMAG, monTEC, monDEF, monSPE, monPRE, monEVA, "Common", "Base stats for mon");
-
-                    HeadEquipment? monHead = null;
-                    if(CSVmonsters[values[op+3]][10] != "") monHead = (HeadEquipment)CreateEquip(values[op+3], 10);
-                    ChestEquipment? monChest = null;
-                    if(CSVmonsters[values[op+3]][11] != "") monChest = (ChestEquipment)CreateEquip(values[op+3], 11);
-                    LegsEquipment? monLegs = null;
-                    if(CSVmonsters[values[op+3]][12] != "") monLegs = (LegsEquipment)CreateEquip(values[op+3], 12);
-                    FeetEquipment? monFeet = null;
-                    if(CSVmonsters[values[op+3]][13] != "") monFeet = (FeetEquipment)CreateEquip(values[op+3], 13);
-                    AccesoryEquipment? monAcc1 = null;
-                    if(CSVmonsters[values[op+3]][14] != "") monAcc1 = (AccesoryEquipment)CreateEquip(values[op+3], 14);
-                    AccesoryEquipment? monAcc2 = null;
-                    if(CSVmonsters[values[op+3]][15] != "") monAcc2 = (AccesoryEquipment)CreateEquip(values[op+3], 15);
-                    WeaponEquipment? monW1 = null;
-                    if(CSVmonsters[values[op+3]][16] != "") monW1 = (WeaponEquipment)CreateEquip(values[op+3], 16);
-                    WeaponEquipment? monW2 = null;
-                    if(CSVmonsters[values[op+3]][17] != "") monW2 = (WeaponEquipment)CreateEquip(values[op+3], 17);
-
-
-                    Character monster = new Character(monName, monSoul, monHead, monChest, monLegs, monFeet, monAcc1, monAcc2, monW1, monW2);
-                    currEvent = new MonsterEvent("You encounter an enemy " + monName, monster); 
+                    Character monster = CreateMonster(op+3);
+                    currEvent = new MonsterEvent("You encounter an enemy " + monster.name, monster); 
                 break;
                 case "LootEvent":
                     Equipment item1; Equipment? item2 = null; Equipment? item3 = null;
@@ -861,6 +830,43 @@ namespace projectTower
                     currEvent = new CampfireEvent("You stop and rest at a campfire, what would you like to do?");
                 break;
             }
+        }
+
+        public static Character CreateMonster(int index){
+            //take stats from monster sheet and assign it to monster values
+            string monName = CSVmonsters[values[index]][0];
+            int monHP = Convert.ToInt32(CSVmonsters[values[index]][1]);
+            int monMP = Convert.ToInt32(CSVmonsters[values[index]][2]);
+            int monSTR = Convert.ToInt32(CSVmonsters[values[index]][3]);
+            int monMAG = Convert.ToInt32(CSVmonsters[values[index]][4]);
+            int monTEC = Convert.ToInt32(CSVmonsters[values[index]][5]);
+            int monDEF = Convert.ToInt32(CSVmonsters[values[index]][6]);
+            int monSPE = Convert.ToInt32(CSVmonsters[values[index]][7]);
+            int monPRE = Convert.ToInt32(CSVmonsters[values[index]][8]);
+            int monEVA = Convert.ToInt32(CSVmonsters[values[index]][9]);
+            Relic monSoul = new Relic("Monster soul", monHP, monMP, monSTR, monMAG, monTEC, monDEF, monSPE, monPRE, monEVA, "Common", "Base stats for mon");
+
+            HeadEquipment? monHead = null;
+            if (CSVmonsters[values[index]][10] != "") monHead = (HeadEquipment)CreateEquip(values[index], 10);
+            ChestEquipment? monChest = null;
+            if (CSVmonsters[values[index]][11] != "") monChest = (ChestEquipment)CreateEquip(values[index], 11);
+            LegsEquipment? monLegs = null;
+            if (CSVmonsters[values[index]][12] != "") monLegs = (LegsEquipment)CreateEquip(values[index], 12);
+            FeetEquipment? monFeet = null;
+            if (CSVmonsters[values[index]][13] != "") monFeet = (FeetEquipment)CreateEquip(values[index], 13);
+            AccesoryEquipment? monAcc1 = null;
+            if (CSVmonsters[values[index]][14] != "") monAcc1 = (AccesoryEquipment)CreateEquip(values[index], 14);
+            AccesoryEquipment? monAcc2 = null;
+            if (CSVmonsters[values[index]][15] != "") monAcc2 = (AccesoryEquipment)CreateEquip(values[index], 15);
+            WeaponEquipment? monW1 = null;
+            if (CSVmonsters[values[index]][16] != "") monW1 = (WeaponEquipment)CreateEquip(values[index], 16);
+            WeaponEquipment? monW2 = null;
+            if (CSVmonsters[values[index]][17] != "") monW2 = (WeaponEquipment)CreateEquip(values[index], 17);
+            Arcana? arcana = null;
+            if (CSVmonsters[values[index]][18] != "") arcana = (Arcana)CreateEquip(values[index], 18);
+
+
+            return new Character(monName, monSoul, monHead, monChest, monLegs, monFeet, monAcc1, monAcc2, monW1, monW2, arcana);
         }
 
         //creates equipment for a monster

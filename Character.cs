@@ -96,7 +96,7 @@ namespace projectTower{
             
         }
 
-        public Character(string name, Relic monsterSoul, HeadEquipment? head, ChestEquipment? chest, LegsEquipment? legs, FeetEquipment? feet, AccesoryEquipment? acc1, AccesoryEquipment? acc2, WeaponEquipment? w1, WeaponEquipment? w2){
+        public Character(string name, Relic monsterSoul, HeadEquipment? head, ChestEquipment? chest, LegsEquipment? legs, FeetEquipment? feet, AccesoryEquipment? acc1, AccesoryEquipment? acc2, WeaponEquipment? w1, WeaponEquipment? w2, Arcana? arc){
             this.name = name;
             this.relics.Add(monsterSoul);
             this.headEquip = head;
@@ -107,36 +107,12 @@ namespace projectTower{
             this.accesoryEquip2 = acc2;
             this.weapon = w1;
             this.weapon2 = w2;
+            this.arcanaEquip = arc;
             this.basehp = 0;
             this.basemp = 0;
         }
 
-        //constructor for monster
-        public Character(string name, int maxHp, int maxMP, int str, int mag, int tec, int def, int spe, int pre, int eva, HeadEquipment? head, ChestEquipment? chest, LegsEquipment? legs, FeetEquipment? feet, AccesoryEquipment? acc1, AccesoryEquipment? acc2, WeaponEquipment? w1, WeaponEquipment? w2){
-            this.name = name;
-            this.maxHp = maxHp;
-            this.maxMp = maxMP;
-            this.strength = str;
-            this.magic = mag;
-            this.technique = tec;
-            this.defense = def;
-            this.speed = spe;
-            this.precision = pre;
-            this.evasion = 10 + eva;
-            this.headEquip = head;
-            this.chestEquip = chest;
-            this.legsEquip = legs;
-            this.feetEquip = feet;
-            this.accesoryEquip1 = acc1;
-            this.accesoryEquip2 = acc2;
-            this.weapon = w1;
-            this.weapon2 = w2;
-
-            EquipmentStats();
-
-            this.currentHp = this.maxHp;
-            this.currentMp = this.maxMp;
-        }
+        
 
         public void UpdateStats()
         {
