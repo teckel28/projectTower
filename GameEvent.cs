@@ -594,8 +594,8 @@ namespace projectTower
 
             switch (input){
                 case "rest": 
-                    int restoreHp = (int)(Program.chara.currentHp*0.3m);
-                    int restoreMp = (int)(Program.chara.currentMp*0.3m);
+                    int restoreHp = (int)(Program.chara.maxHp*0.3m);
+                    int restoreMp = (int)(Program.chara.maxMp*0.3m);
                     Program.chara.currentHp += restoreHp;
                     if(Program.chara.currentHp >= Program.chara.maxHp) Program.chara.currentHp = Program.chara.maxHp;
                     Program.chara.currentMp += restoreMp;
@@ -688,7 +688,7 @@ namespace projectTower
                 
             }
 
-            Console.WriteLine("Continue journey: [Press any key]", 6);
+            Writer.WriteText("Continue journey: [Press any key]", 6);
             Console.ReadKey();
 
         }

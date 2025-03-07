@@ -62,9 +62,9 @@ namespace projectTower
 
         public override void OnTakingDamage(Character user, Character target, DamageAbility ability)
         {
-            Writer.WriteText("Spiked chestplate deal 1 damage to the enemy", 22);
+            Writer.WriteText("Spiked chestplate deal 3 damage to the enemy", 22);
             Writer.WriteText("[Continue: press any key]", 23);
-            user.currentHp--;
+            user.currentHp -= 3;
             Writer.WriteText("                                            ", 22);
             Writer.WriteText("                         ", 23);
         }
@@ -174,9 +174,9 @@ namespace projectTower
 
         public override void OnDamage(Character user, Character target, DamageAbility ability)
         {
-            Writer.WriteText("Bloodlust amulet gives 1 Bleed", 22);
+            Writer.WriteText("Bloodlust amulet gives 2 Bleed", 22);
             Writer.WriteText("[Continue: press any key]", 23);
-            target.bleed++;
+            target.bleed += 2;
             Writer.WriteText("                                            ", 22);
             Writer.WriteText("                         ", 23);
         }

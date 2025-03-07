@@ -211,8 +211,6 @@ namespace projectTower{
         public override void OnAbilityHit(Character user, Character target, int line)
         {
             Writer.WriteText("Inflicts Bleed 3", line + 3);
-            Writer.WriteText("[Continue: press any key]", line + 5);
-            Console.ReadKey();
             target.bleed += 3;
         }
     }

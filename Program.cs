@@ -513,7 +513,7 @@ namespace projectTower
                         if(room <= 4){
                             values[i+3] = random.Next(tierRanges[floor*3], tierRanges[floor*3 + 1]);
                         } else {
-                            values[i+3] = random.Next(tierRanges[floor*3], tierRanges[floor*3 + 2]);
+                            values[i+3] = random.Next(tierRanges[floor*3 + 1], tierRanges[floor*3 + 2]);
                         }
                     
                     break;
@@ -1214,7 +1214,7 @@ namespace projectTower
             Writer.WriteText("[type command 'hp'/'mp']", 10);
             Writer.WriteText("Gain +3 STR/MAG/TEC/DEF/SPE: ", 12);
             Writer.WriteText("[type command 'str'/'mag'/'tec'/'def'/'spe']", 13);
-            Writer.WriteText("Gain +1 PRE/EVA (no EXP this room): ", 15);
+            Writer.WriteText("Gain +1 PRE/EVA: ", 15);
             Writer.WriteText("[type command 'pre'/'eva']", 16);
 
             ValidInputs.Remove("r1"); ValidInputs.Remove("r2"); ValidInputs.Remove("r3");
