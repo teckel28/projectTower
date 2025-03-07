@@ -43,7 +43,10 @@ namespace projectTower
             Program.HUD();
             Program.ValidInputs.Remove("desc"); Program.ValidInputs.Remove("equip"); Program.ValidInputs.Remove("rdesc");
             Program.ValidInputs.Remove("r1"); Program.ValidInputs.Remove("r2"); Program.ValidInputs.Remove("r3"); 
-            Program.ValidInputs.Add("a1"); Program.ValidInputs.Add("a2"); Program.ValidInputs.Add("a3"); Program.ValidInputs.Add("a4");
+            Program.ValidInputs.Add("a1"); Program.ValidInputs.Add("a2"); 
+            if(Program.chara.weapon2 != null){
+                Program.ValidInputs.Add("a3"); Program.ValidInputs.Add("a4");
+            }
 
             Fight();
             
