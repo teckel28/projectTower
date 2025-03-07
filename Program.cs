@@ -246,8 +246,7 @@ namespace projectTower
             string room1 = ""; string room2 = ""; string room3 = "";
             ValidInputs.Remove("next"); ValidInputs.Add("r1"); ValidInputs.Add("r2"); ValidInputs.Add("r3"); ValidInputs.Add("equip"); ValidInputs.Add("desc"); ValidInputs.Add("rdesc");
             while(input != "exit")
-            {   
-                
+            {    
                 Console.Clear();
                 HUD();
                 GiveOptions(ref room1, ref room2, ref room3);
@@ -291,7 +290,16 @@ namespace projectTower
                     break;
                 
                 }
+
+                if(chara.exp >= 10){
+                chara.exp -= 10;
+                chara.level++;
+                LevelUp();
+                }
             }
+
+            
+            
         }
 
         
@@ -1190,5 +1198,132 @@ namespace projectTower
                 Writer.WriteText("[Continue: press any key]", 20);
                 Console.ReadKey();
         }
+    
+        public static void LevelUp(){
+            chara.relics[0].hpMod += 15; chara.currentHp += 15;
+            chara.relics[0].mpMod += 15; chara.currentMp += 15;
+            chara.relics[0].strMod += 3; chara.relics[0].magMod += 3; chara.relics[0].tecMod += 3;
+            chara.relics[0].defMod += 3; chara.relics[0].speedMod += 3;
+            chara.relics[0].precMod += 1; chara.relics[0].evaMod += 3;
+            Console.Clear();
+            HUD();
+            Writer.WriteText("You level up!", 5);
+            Writer.WriteText("+15 HP, +15 MP, +1 PRE, +1 EVA, +3 all other stats", 6);
+            Writer.WriteText("Choose 1 more benefit: ", 7);
+            Writer.WriteText("Gain +15 maxHP/maxMP: ", 9);
+            Writer.WriteText("[type command 'hp'/'mp']", 10);
+            Writer.WriteText("Gain +3 STR/MAG/TEC/DEF/SPE: ", 12);
+            Writer.WriteText("[type command 'str'/'mag'/'tec'/'def'/'spe']", 13);
+            Writer.WriteText("Gain +1 PRE/EVA (no EXP this room): ", 15);
+            Writer.WriteText("[type command 'pre'/'eva']", 16);
+
+            ValidInputs.Remove("r1"); ValidInputs.Remove("r2"); ValidInputs.Remove("r3");
+            ValidInputs.Remove("equip"); ValidInputs.Remove("desc"); ValidInputs.Remove("rdesc");
+            ValidInputs.Add("hp"); ValidInputs.Add("mp");
+            ValidInputs.Add("str"); ValidInputs.Add("mag"); ValidInputs.Add("tec"); ValidInputs.Add("def"); ValidInputs.Add("spe");
+            ValidInputs.Add("pre"); ValidInputs.Add("eva");
+
+            //read input
+            string input = "";
+            input = Console.ReadLine();
+            Writer.WriteText("               ", 35);
+            //checking validiy-----------------------------------
+            while (!ValidInputs.Contains(input))
+            {
+                Writer.WriteText("Please enter a valid command", 36);
+                Console.SetCursorPosition(0, 35);
+                input = Console.ReadLine();
+                Writer.WriteText("               ", 35);
+            }
+            //^^^^^ checking validiy-----------------------------
+
+            switch (input)
+            {
+
+                case "hp":
+                    chara.basehp += 15;
+                    chara.currentHp += 15;
+                    Console.Clear();
+                    HUD();
+                    Writer.WriteText("+15 max HP", 5);
+                    chara.exp++;
+                    break;
+
+                case "mp":
+                    chara.basemp += 15;
+                    chara.currentMp += 15;
+                    Console.Clear();
+                    HUD();
+                    Writer.WriteText("+15 max MP", 5);
+                    chara.exp++;
+                    break;
+
+                case "str":
+                    chara.relics[0].strMod += 3;
+                    Console.Clear();
+                    HUD();
+                    Writer.WriteText("+3 STR", 5);
+                    chara.exp++;
+                    break;
+
+                case "mag":
+                    chara.relics[0].magMod += 3;
+                    Console.Clear();
+                    HUD();
+                    Writer.WriteText("+3 MAG", 5);
+                    chara.exp++;
+                    break;
+
+                case "tec":
+                    chara.relics[0].tecMod += 3;
+                    Console.Clear();
+                    HUD();
+                    Writer.WriteText("+3 TEC", 5);
+                    chara.exp++;
+                    break;
+
+                case "def":
+                    chara.relics[0].defMod += 3;
+                    Console.Clear();
+                    HUD();
+                    Writer.WriteText("+3 DEF", 5);
+                    chara.exp++;
+                    break;
+
+                case "spe":
+                    chara.relics[0].speedMod += 3;
+                    Console.Clear();
+                    HUD();
+                    Writer.WriteText("+3 SPE", 5);
+                    chara.exp++;
+                    break;
+
+                case "pre":
+                    chara.relics[0].precMod += 1;
+                    Console.Clear();
+                    HUD();
+                    Writer.WriteText("+1 PRE", 5);
+                    break;
+
+                case "eva":
+                    chara.relics[0].evaMod += 1;
+                    Console.Clear();
+                    HUD();
+                    Writer.WriteText("+1 EVA", 5);
+                    break;
+
+            }
+
+            Console.WriteLine("Continue journey: [Press any key]", 6);
+            Console.ReadKey();
+
+            ValidInputs.Add("r1"); ValidInputs.Add("r2"); ValidInputs.Add("r3");
+            ValidInputs.Add("equip"); ValidInputs.Add("desc"); ValidInputs.Add("rdesc");
+            ValidInputs.Remove("rest"); ValidInputs.Remove("fullrest"); ValidInputs.Remove("hp"); ValidInputs.Remove("mp");
+            ValidInputs.Remove("str"); ValidInputs.Remove("mag"); ValidInputs.Remove("tec"); ValidInputs.Remove("def"); ValidInputs.Remove("spe");
+            ValidInputs.Remove("pre"); ValidInputs.Remove("eva");
+        }
     }
+
+
 }
