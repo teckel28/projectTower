@@ -645,7 +645,8 @@ namespace projectTower
 
                     break;
                     case 5: //reliquary
-
+                        values[i+3] = random.Next(0, CSVrelicRares.Count());
+                        rarities[i] = "Rare";
                     break;
                     case 6: //campfire
                         values[i+3] = 0;
@@ -842,6 +843,11 @@ namespace projectTower
                 break;
                 case "CampfireEvent":
                     currEvent = new CampfireEvent("You stop and rest at a campfire, what would you like to do?");
+                break;
+                case "RelicEvent":
+                    Relic roomRelic = CreateRelic(values[op+3], rarities[op]);
+
+                    currEvent = new RelicEvent("This is a relic room", roomRelic);
                 break;
                 case "BossEvent":   
                     Character boss = CreateMonster(op+3);
@@ -1235,7 +1241,7 @@ namespace projectTower
             chara.relics[0].mpMod += 15; chara.currentMp += 15;
             chara.relics[0].strMod += 3; chara.relics[0].magMod += 3; chara.relics[0].tecMod += 3;
             chara.relics[0].defMod += 3; chara.relics[0].speedMod += 3;
-            chara.relics[0].precMod += 1; chara.relics[0].evaMod += 3;
+            chara.relics[0].precMod += 1; chara.relics[0].evaMod += 1;
             Console.Clear();
             HUD();
             Writer.WriteText("You level up!", 5);

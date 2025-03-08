@@ -86,6 +86,7 @@ namespace projectTower
                 Program.HUD();
                 DisplayMonster();
 
+                Writer.WriteText("[Enter command 'a1', 'a2', 'a3' or 'a4']", 11);
                 //read input
                 input = Console.ReadLine();
                 //checking validiy-----------------------------------
@@ -725,6 +726,30 @@ namespace projectTower
             Program.chara.gold += goldLoot;
             Program.chara.exp += 3;
             Program.floor++; Program.room = 1;
+        }
+    }
+
+    class RelicEvent : GameEvent{
+        
+        Relic relic;
+
+        public RelicEvent(string eventDescription, Relic relic) : base (eventDescription){this.relic = relic;}
+        
+
+        public override void Start()
+        {
+            Console.Clear();
+            Program.HUD();
+            Writer.WriteText("You encounter the following relic: ", 5);
+            Writer.WriteText(relic.itemName, 6);
+            Writer.WriteText(relic.description, 7);
+
+            Writer.WriteText("[Pick up: press any key]", 13);
+            Console.ReadKey();
+            Program.chara.relics.Add(relic);
+
+            Program.chara.exp++;
+            Program.values = Program.ChooseOptions();
         }
     }
 }

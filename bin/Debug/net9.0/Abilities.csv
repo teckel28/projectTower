@@ -14,5 +14,5 @@ DamageWound;Wound;Inflicts Bleed 3;;;;;0,3;;0,3;3;-2;;3
 DamagePoison;Poison cut;25% chance to poision;;;;;0,4;0,4;0,4;3;;25;
 DamagePoison;Haze strike;Deals some damage and its bad smell;has a 15% chance to poison;;;5;0,4;0,4;;5;;15;
 ManaDrainAbility;Mana drain;Steals more MP the less MAG the ;target has;;5;;;;10;10;;;
-DamageWound;Magic cut;Deals some damage and inflicts ;Bleed 3;;Dark;8;;0,7;0,2;1;;;3
+DamageWound;Magic cut;Deals some damage and inflicts ;Bleed 3;;Dark;8;;0,7;0,2;1;;;2
 DamageAbility;Arcane blast;Negative STR scaling;(deals less damage the more STR;you have);Dark;8;-0,3;1,2;;5;;;
