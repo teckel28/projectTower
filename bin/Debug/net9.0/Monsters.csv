@@ -3,9 +3,12 @@ Goblin;20;0;7;0;11;19;9;5;3;Gobo hat;;;Gobo boots;;;Goblin knife;;
 Slime;29;10;9;14;2;25;5;4;2;;;;;Slime core;;Fluid weapon;;
 Rat;20;0;10;0;12;18;10;7;4;;Rat fur;;;;;Rat fang;;
 Wolf cub;25;0;15;0;8;20;8;6;3;;Wolf fur;;;;;Wolf fang;;
-Kobold;30;30;7;2;15;20;8;8;3;Helmet;;;Kobold sandals;Baby draco soul;;Spear;Baby breath weapon;
+Kobold;30;30;7;2;10;20;8;8;3;Helmet;;;Kobold sandals;Baby draco soul;;Spear;Baby breath weapon;
 Skeleton archer;30;10;13;10;13;15;6;7;2;Helmet;;;;Gloves;;Old bow;;
 Skeleton warrior;30;0;13;0;13;15;7;6;3;Helmet;;;;Gloves;;Old greatsword;;
 Dire wolf;47;0;16;0;10;25;10;6;5;Beast skull;Wolf fur;;;Bloodlust amulet;;Wolf fang;Wolf claw;
 King rat;45;0;9;0;16;23;11;10;5;Rat crown;Rat fur;King belt;;;;Rat fang;Rat claw;
 Small troll;50;20;10;10;10;23;7;6;5;;;Troll rags;;;;Troll stick;;
+The Magician;100;-40;70;0;12;20;20;20;5;Magician's hat;Magician's robes;;;Quality magic scarf;;Wonder staff;Wonder wand;The Magician
+The Chariot;100;100;20;20;20;20;20;20;20;Chariot's helm;Chariot's plate;Chariot's kneebraces;Chariot's boots;;;Rocket spear;;The Chariot
+The Hermit;100;100;20;20;20;20;20;20;20;Hermit's hood;Hermit's tunic;;;Rosary;;Old tree wand;;The Hermit

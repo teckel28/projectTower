@@ -125,7 +125,10 @@ namespace projectTower{
             this.speed = 0;
             this.precision = 0;
             this.evasion = 10;
+
             
+            EquipmentStats();
+
             foreach (Relic relic in relics)
             {
                 this.maxHp += relic.hpMod;
@@ -136,11 +139,15 @@ namespace projectTower{
                 this.defense += relic.defMod;
                 this.speed += relic.speedMod;
                 this.precision += relic.precMod;
-                this.evasion += relic.evaMod; 
-                relic.Passive(this);      
+                this.evasion += relic.evaMod;        
             }
 
-            EquipmentStats();
+            EquipmentPassives();
+
+            foreach (Relic relic in relics)
+            {
+                relic.Passive(this);
+            }
 
         }
 
@@ -154,6 +161,18 @@ namespace projectTower{
             if(weapon != null) weapon.GiveStats(this);
             if(weapon2 != null) weapon2.GiveStats(this);
             if(arcanaEquip != null) arcanaEquip.GiveStats(this);
+        }
+
+        public void EquipmentPassives(){
+            if(headEquip != null) headEquip.Passive(this);
+            if(chestEquip != null) chestEquip.Passive(this);
+            if(legsEquip != null) legsEquip.Passive(this);
+            if(feetEquip != null) feetEquip.Passive(this);
+            if(accesoryEquip1 != null) accesoryEquip1.Passive(this);
+            if(accesoryEquip2 != null) accesoryEquip2.Passive(this);
+            if(weapon != null) weapon.Passive(this);
+            if(weapon2 != null) weapon2.Passive(this);
+            if(arcanaEquip != null) arcanaEquip.Passive(this);
         }
 
         public void Equip(Equipment equipment, int pos = 0)
@@ -280,7 +299,7 @@ namespace projectTower{
         public void PrintAbility3()
         {
             Console.SetCursorPosition(70, 36);
-            if(weapon == null){
+            if(weapon2 == null){
                 Console.ForegroundColor = ConsoleColor.DarkCyan;
                 Console.WriteLine("Ability 3: ");
                 Console.ForegroundColor = ConsoleColor.Magenta;
@@ -296,7 +315,7 @@ namespace projectTower{
         public void PrintAbility4()
         {
             Console.SetCursorPosition(130, 36);
-            if(weapon == null){
+            if(weapon2 == null){
                 Console.ForegroundColor = ConsoleColor.DarkCyan;
                 Console.WriteLine("Ability 4: ");
                 Console.ForegroundColor = ConsoleColor.Magenta;

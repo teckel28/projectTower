@@ -115,7 +115,7 @@ namespace projectTower
                     nullA = new NullAbility("", "", "", "", "", 0, 0, 0, 0);
 
                     WeaponEquipment woodenSword;
-                    woodenSword = new WeaponEquipment("Wooden sword", 0, 0, 0, 0, 0, 0, 0, 0, 0, "Common", "A begginer's (not so) trusty weapon", 2, [], false, slash, nullA);
+                    woodenSword = new WeaponEquipment("Wooden sword", 0, 0, 0, 0, 0, 0, 0, 0, 0, "Common", "A begginer's (not so) trusty weapon", 2, ["Sword"], false, slash, nullA);
                     chara.inventory.Add(woodenSword);
                     chara.Equip(woodenSword, 1);
 
@@ -123,7 +123,7 @@ namespace projectTower
                     DamageAbility shieldBash;
                     shieldBash = new DamageAbility("Shield bash", "Easier to hit than a sword slash but not ", "as effective", "", "-", 6, 2, 0, 0.55m, 0, 0.05m);
                     WeaponEquipment woodenShield;
-                    woodenShield = new WeaponEquipment("Wooden shield", 0, 0, 0, 0, 0, 1, 0, 0, 0, "Common", "Is that a... pot lid? [+1 DEF]", 2, [], false, shieldBash, nullA);
+                    woodenShield = new WeaponEquipment("Wooden shield", 0, 0, 0, 0, 0, 1, 0, 0, 0, "Common", "Is that a... pot lid? [+1 DEF]", 2, ["Shield"], false, shieldBash, nullA);
                     chara.inventory.Add(woodenShield);
                     chara.Equip(woodenShield, 2);
 
@@ -142,7 +142,7 @@ namespace projectTower
                     
 
                     WeaponEquipment wand;
-                    wand = new WeaponEquipment("Apprentice wand", 0, 0, 0, 0, 0, 0, 0, 0, 0, "Common", "It choose you... remember the memories at the academy?", 2, [], false, magic, fire);
+                    wand = new WeaponEquipment("Apprentice wand", 0, 0, 0, 0, 0, 0, 0, 0, 0, "Common", "It choose you... remember the memories at the academy?", 2, ["Wand"], false, magic, fire);
                     chara.inventory.Add(wand);
                     chara.Equip(wand, 1);
                 break;
@@ -267,7 +267,7 @@ namespace projectTower
                     case "r1":
                         room++;
                         SwitchInstance(room1, 0, ref currEvent);
-                        currEvent.Start();
+                        currEvent.Start();  
                     break;
                     case "r2":
                         room++;
@@ -479,11 +479,11 @@ namespace projectTower
                     int roomProbability = random.Next(1, 101);
                     if(roomProbability <= 40)//40% of a monster room
                         values[i] = 1;
-                    else if(roomProbability <= 73)//33% of a loot room
+                    else if(roomProbability <= 75)//35% of a loot room
                         values[i] = 2;
-                    else if(roomProbability <= 96) //23% of a shop room
+                    else if(roomProbability <= 95) //20% of a shop room
                         values[i] = 3;
-                    else if(roomProbability <= 97) //1% of a black market
+                    else if(roomProbability <= 98) //2% of a black market
                         values[i] = 4;
                     else if(roomProbability <= 100) //3% of a reliquary
                         values[i] = 5;
@@ -493,22 +493,37 @@ namespace projectTower
                     values[i] = 7;
             }
 
-            
+            //tier value is how many monsters are in that tier
+            int tier1 = 1 + 7; //floor 1 easy
+            int tier2 = tier1 + 3; //floor 1 hard
+            int tier3 = tier2 + 5 + 0; //floor 2 easy
+            int[] tierRanges = { 1, tier1, tier2, tier2 + 5, tier3 };
 
-            
-            
+
+            List<int> bosses = new List<int>();//list with all bosses in case of a bossfitght
+            switch (floor)
+            {
+                case 0:
+                    for (int j = 0; j <= 2; j++) bosses.Add(tier2 + j);//HAS TO BE CHANGED TO 4
+                    break;
+                case 1:
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+            }
+
+
             //in case of a monster or loot room select the specific event (last 3 numbers of array)
             for (int i = 0; i < 3; i++)
             {
+                //get values needed depending on room type
                 switch (values[i])
-                {
+                {   
+                    
                     case 1://monster room
                     
-                        //tier value is how many monsters are in that tier
-                        int tier1 = 1 + 7; //floor 1 easy
-                        int tier2 = tier1 + 3; //floor 1 hard
-                        int tier3 = tier2 + 5 + 0; //floor 2 easy
-                        int[] tierRanges = {1, tier1, tier2, tier2 + 5, tier3};
                         
                         if(room <= 4){
                             values[i+3] = random.Next(tierRanges[floor*3], tierRanges[floor*3 + 1]);
@@ -636,7 +651,6 @@ namespace projectTower
                         values[i+3] = 0;
                     break;
                     case 7: //boss
-                        List<int> bosses = new List<int>(); for (int j = 0; j < 5; j++) bosses[j] = j;
                         int thisBoss = random.Next(0, bosses.Count());
                         values[i+3] = bosses[thisBoss];
                         bosses.RemoveAt(thisBoss);
@@ -741,7 +755,7 @@ namespace projectTower
                     case 7:
                         //boss
                         roomType = "BossEvent";
-                        Writer.WriteText("This is a boss", 8+(op*3));
+                        Writer.WriteText("Boss: fight " + CSVmonsters[values[op + 3]][0], 8+(op*3));
                     break;
                     
                 }
@@ -828,6 +842,10 @@ namespace projectTower
                 break;
                 case "CampfireEvent":
                     currEvent = new CampfireEvent("You stop and rest at a campfire, what would you like to do?");
+                break;
+                case "BossEvent":   
+                    Character boss = CreateMonster(op+3);
+                    currEvent = new BossEvent("Good luck", boss); 
                 break;
             }
         }
@@ -976,7 +994,7 @@ namespace projectTower
                 count++;
             }
 
-            string abtype = ("projectTower." + CSVabilities[abIndex][0]);
+            string abtype = "projectTower." + CSVabilities[abIndex][0];
             Ability ab = (Ability)Activator.CreateInstance(Type.GetType(abtype));
 
             ab.abilityName = abname;
@@ -988,15 +1006,22 @@ namespace projectTower
             ab.description = abdesc1;
             ab.descriptionL2 = abdesc2;
             ab.descriptionL3 = abdesc3;
+           
+           
+            if (CSVabilities[abIndex][10] == "") ab.power = 0;
+                else ab.power = Convert.ToInt32(CSVabilities[abIndex][10]);
 
             if(ab is DamageAbility damageAb){
-                damageAb.power = Convert.ToInt32(CSVabilities[abIndex][10]);
                 if (CSVabilities[abIndex][11] == "") damageAb.abilityPrecMod = 0;
                     else damageAb.abilityPrecMod = Convert.ToInt32(CSVabilities[abIndex][11]);
             }
             if(ab is DamagePoison poisonAb){
                 if (CSVabilities[abIndex][12] == "") poisonAb.poisonChance = 0;
                 else poisonAb.poisonChance = Convert.ToInt32(CSVabilities[abIndex][12]);
+            }
+            if(ab is DamageWound woundAb){
+                if (CSVabilities[abIndex][13] == "") woundAb.bleed = 0;
+                else woundAb.bleed = Convert.ToInt32(CSVabilities[abIndex][13]);
             }
 
 

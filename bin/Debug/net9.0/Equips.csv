@@ -17,10 +17,10 @@ AccGloves;Gloves;;;;;1;;;1;;Uncommon;Gives +2 precision when using a 2 handed we
 WeaponEquipment;Old bow;;;;;;;;;1;Uncommon;Requires great technique [+1 EVA];;3;YES;Shoot arrow;
 WeaponEquipment;Old greatsword;;;;;;3;;;;Uncommon;Requieres great strength [+3 DEF];;3;YES;Heavy slam;Slash
 SpikeChest;Spiked chestplate;;;;;;2;;;1;Uncommon;When you take damage from an enemy, deal 3 damage to it [+2 DEF, +1 EVA];;5;;;
-AccMagicScarf;Magic scarf;;;;;;;;;;Uncommon;Give 10% MAG scaling to your attacks;;5;;;
+AccMagicScarf;Magic scarf;;;;;;;;;;Uncommon;Give your attacks scaled power equal to 10% of MAG;;5;;;
 FeetArcaneBoots;Arcane boots;;;;;;;;;;Uncommon;Gain 10% of your MAG as SPE;;6;;;
 AccSnackPouch;Snack pouch;;;;;;;;;;Uncommon;After every battle, recover 5 HP;;1;;;
-WeaponBloodSword;Blood sword;;;;;;;;;;Rare;Gains +4 STR after every battle;;10;YES;Slash;Blood strike
+WeaponBloodSword;Blood sword;;;;;;;;;;Rare;Gains +4 STR after every battle [2 Hands];;10;YES;Slash;Blood strike
 WeaponEquipment;Refined wooden sword;;;20;;10;;;;;Epic;Perfect weapon for a true warrior [+20 STR, +10 TEC];Sword;70;NO;Slash;
 ChestEquipment;Diamond chestplate;;;;;;30;;;;Legendary;Cuidao q boi full diamante [+30 DEF];Diamond;100;;;
 AccBloodlustAmulet;Bloodlust amulet;;;;;;;;;;Rare;When you deal damage, give the enemy 2 Bleed;Bleed;9;;;
@@ -29,5 +29,11 @@ WeaponEquipment;Wolf claw;;;4;;;;;2;;Uncommon;More effective than the fang, can 
 HeadRatCrown;Rat crown;7;5;;;;;;;;Uncommon;If you're holding a Beast item, +5 STR [+7 HP, +5 MP];;9;;;
 LegsKingBelt;King belt;5;5;;;;;;;;Uncommon;If you're holding a Beast item, +10 MAG [+5 HP, +5 MP];;9;;;
 WeaponEquipment;Rat claw;;2;1;3;;;;1;;Uncommon;Inflicts poisonous attacks [+2 MP, +1 STR, +3 MAG, +1 PRE];Beast,Knife;7;NO;Poison cut;
-WeaponEquipment;Troll stick;;;7;5;;4;;;;Uncommon;Unga unga weapon [+7 STR, +5 MAG, +4 DEF];Big;12;YES;Heavy slam;Haze strike
+WeaponEquipment;Troll stick;;;7;5;;4;;;;Uncommon;Unga unga weapon [+7 STR, +5 MAG, +4 DEF] [2 Hands];Big;12;YES;Heavy slam;Haze strike
 LegsTrollRags;Troll rags;10;5;;;;;;;;Uncommon;If the enemy is poisioned when you attack, you gain +10 STR [+10 HP, +5 MP];;9;;;
+HeadMagicHat;Magician's hat;;15;;10;;;;2;;Epic;Heal HP equal to 10% of the attack's magic scaling [+15 MP, +10 MAG, +2 PRE];Boss,Hat;40;;;
+ChestMagicRobes;Magician's robes;;10;;15;;;;;;Epic;Take 20% less damage from attacks with magic scaling [+10 MP, +15 MAG];Boss,Robe;40;;;
+AccQualMagicScarf;Quality magic scarf;;10;;;;;;;;Epic;Give your attacks scaled power equal to 25% of MAG [+10 MP];Boss;40;;;
+WeaponEquipment;Wonder staff;;30;;15;;;;;;Epic;Wielded by The Magician [+30 MP, +15 MAG] [2 Hands];Boss,Staff;40;YES;Mana drain;
+WeaponEquipment;Wonder wand;;15;;8;;;;;;Epic;Wielded by The Magician [+15 MP, +8 MAG];Boss,Wand;40;NO;Arcane blast;Magic cut
+ArcanaTheMagician;The Magician;;30;-10;;;;;;;Common;Gain MAG equal to the difference between MAG and STR [-10 STR];Boss;0;;;

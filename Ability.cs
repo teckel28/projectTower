@@ -16,6 +16,7 @@ namespace projectTower{
         public string descriptionL3 {get; set;} = "";
         public string element {get; set;} = "";
         public int mpCost {get; set;} = 0;
+        public int power {get; set;}
         
         //scaling
         public decimal strScale {get; set;} = 0;
@@ -66,7 +67,6 @@ namespace projectTower{
 
     class DamageAbility : Ability 
     {
-        public int power {get; set;}
         public int abilityPrecMod {get; set;}
         public int damage {get; set;}
         public int scaledPower {get; set;}
@@ -142,7 +142,7 @@ namespace projectTower{
 
 
 
-                    target.currentHp -= damage;//deal damage
+                    
                     this.OnAbilityHit(user, target, line);
                     Writer.WriteText(this.abilityName + " hits for " + damage + " damage", line + 2);
 
@@ -176,6 +176,7 @@ namespace projectTower{
                     user.UpdateStats(); target.UpdateStats();
                     //end of OnDamage() and OnTakingDamage()-------------------------------------------------------
 
+                    target.currentHp -= damage;//deal damage
 
                 }
                 else//miss
@@ -206,12 +207,13 @@ namespace projectTower{
         }
     }
     class DamageWound : DamageAbility{
+        public int bleed;
         public DamageWound(){}
 
         public override void OnAbilityHit(Character user, Character target, int line)
         {
-            Writer.WriteText("Inflicts Bleed 3", line + 3);
-            target.bleed += 3;
+            Writer.WriteText("Inflicts Bleed " + bleed, line + 3);
+            target.bleed += bleed;
         }
     }
 
@@ -228,6 +230,68 @@ namespace projectTower{
                 Writer.WriteText("The target was poisoned", line + 3);
                 target.poison = true;
             }
+        }
+    }
+
+    class ManaDrainAbility : Ability{
+        public ManaDrainAbility(){}
+
+        public override void PrintAbility(int x, int y, int str, int mag, int tec){
+            Console.SetCursorPosition(x, y);
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
+            Console.WriteLine("Power: " + this.power + "  MP Cost: " + this.mpCost);
+            Console.SetCursorPosition(x, y+1);
+            Console.WriteLine("Scaling: STR " + (int)(this.strScale * 100) + "% / MAG " + (int)(this.magScale * 100) + "% / TEC " + (int)(this.tecScale * 100) + "%");
+            Console.SetCursorPosition(x, y+2);
+            Console.ForegroundColor = ConsoleColor.Magenta;
+            Console.WriteLine("Element: " + this.element);
+            Console.SetCursorPosition(x, y+4);
+            Console.WriteLine(this.description);
+            Console.SetCursorPosition(x, y+5);
+            Console.WriteLine(this.descriptionL2);
+            Console.SetCursorPosition(x, y+6);
+            Console.WriteLine(this.descriptionL3);
+        }
+
+        public override void UseAbility(Character user, Character target, int line){
+            Writer.WriteText(user.name + " used " + this.abilityName, line);
+            //check for MP
+            if(user.currentMp >= this.mpCost){
+                //OnUseAbility
+                if (user.headEquip != null) user.headEquip.OnUseAbility(user, target, this);
+                if (user.chestEquip != null) user.chestEquip.OnUseAbility(user, target, this);
+                if (user.legsEquip != null) user.legsEquip.OnUseAbility(user, target, this);
+                if (user.feetEquip != null) user.feetEquip.OnUseAbility(user, target, this);
+                if (user.accesoryEquip1 != null) user.accesoryEquip1.OnUseAbility(user, target, this);
+                if (user.accesoryEquip2 != null) user.accesoryEquip2.OnUseAbility(user, target, this);
+                if (user.weapon != null) user.weapon.OnUseAbility(user, target, this);
+                if (user.weapon2 != null) user.weapon2.OnUseAbility(user, target, this);
+
+                user.UpdateStats(); target.UpdateStats();
+                //end of OnUseAbility
+
+                user.currentMp -= this.mpCost;//reduce mp
+                int sc = power * power;
+                int df = 2 * target.magic;
+                int manaDrained = (int)((sc / df));
+
+                //drain mana without exceding limits
+                if(target.currentMp < manaDrained){
+                    manaDrained = target.currentMp;
+                }
+                target.currentMp -= manaDrained;
+                user.currentMp += manaDrained;
+                if(user.currentMp > user.maxMp){
+                    user.currentMp = user.maxMp;
+                }
+
+                Writer.WriteText("It drained " + manaDrained + " MP", line + 1);
+            }
+            else{//not mp
+                Writer.WriteText("Not enough MP, deal 1 damage to yourself", line);
+                user.currentHp -= 1;
+            }
+            
         }
     }
 

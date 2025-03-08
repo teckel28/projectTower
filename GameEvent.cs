@@ -29,7 +29,7 @@ namespace projectTower
 
     class MonsterEvent : GameEvent
     {   
-        Character monster;
+        public Character monster;
 
         public MonsterEvent(string eventDescription, Character monster) : base(eventDescription)
             {this.monster = monster;}
@@ -49,6 +49,7 @@ namespace projectTower
             }
 
             Fight();
+            WinScreen();
             
             //activate OnBattleEnd abilities---------------------------------------------------------
             Console.Clear();
@@ -140,6 +141,11 @@ namespace projectTower
             }
             //win
             Program.chara.bleed = 0; Program.chara.poison = false; Program.chara.poisonStack = 0;
+            
+            
+        }
+
+        public virtual void WinScreen(){
             Writer.WriteText("You defeated the enemy " + monster.name, 24);
             Equipment loot = ChooseLoot();
             int goldLoot = 0;
@@ -157,8 +163,8 @@ namespace projectTower
             Program.chara.inventory.Add(loot);
             Program.chara.gold += goldLoot;
             Program.chara.exp += 3;
-            
         }
+
 
         public void DisplayMonster(){
             monster.UpdateStats();
@@ -693,4 +699,32 @@ namespace projectTower
 
         }
         }
+
+    class BossEvent : MonsterEvent{
+        public BossEvent(string eventDescription, Character monster) : base (eventDescription, monster){}
+
+        public override void WinScreen()
+        {
+            Writer.WriteText("You defeated " + monster.name, 24);
+            Equipment loot = ChooseLoot();
+            int goldLoot = 0;
+            switch (Program.floor)
+            {
+                case 0: goldLoot = Program.random.Next(10, 20); break;
+                case 1: goldLoot = Program.random.Next(5, 11); break;
+                case 2: goldLoot = Program.random.Next(15, 25); break;
+                case 3: goldLoot = Program.random.Next(30, 51); break;
+            }
+            Writer.WriteText("You obtained " + monster.arcanaEquip + " arcana", 25);
+            Writer.WriteText("It dropped " + loot.itemName + " and " + goldLoot + " gold", 26);
+            Writer.WriteText("You earned 3 exp", 27);
+            Writer.WriteText("[Pick up: press any key]", 28);
+            Console.ReadKey();
+            Program.chara.inventory.Add(monster.arcanaEquip);
+            Program.chara.inventory.Add(loot);
+            Program.chara.gold += goldLoot;
+            Program.chara.exp += 3;
+            Program.floor++; Program.room = 1;
+        }
+    }
 }

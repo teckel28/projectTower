@@ -29,7 +29,6 @@ namespace projectTower
             chara.speed += this.speedMod;
             chara.precision += this.precMod;
             chara.evasion += this.evaMod;
-            this.Passive(chara);
         }
 
 
@@ -51,6 +50,16 @@ namespace projectTower
             }
         }
     }
+    class HeadMagicHat : HeadEquipment{
+        public HeadMagicHat(){}
+
+        public override void OnUseAbility(Character user, Character target, Ability ability)
+        {
+            user.currentHp += (int)(ability.magScale*10);
+
+        }
+    }
+
     //------------------------------------------Chest----------------------------------------------------------------
     class ChestEquipment : Equipment
     {
@@ -67,6 +76,16 @@ namespace projectTower
             user.currentHp -= 3;
             Writer.WriteText("                                            ", 22);
             Writer.WriteText("                         ", 23);
+        }
+    }
+    class ChestMagicRobes : ChestEquipment{
+        public ChestMagicRobes(){}
+
+        public override void OnTakingDamage(Character user, Character target, DamageAbility ability)
+        {
+            if(ability.magScale > 0){
+                ability.damage -= (int)(ability.damage*0.25);
+            }
         }
     }
 
@@ -181,7 +200,16 @@ namespace projectTower
             Writer.WriteText("                         ", 23);
         }
     }
+    class AccQualMagicScarf : AccesoryEquipment{
+        public AccQualMagicScarf(){}
 
+        public override void OnUseAbility(Character user, Character target, Ability ability)
+        {
+            if(ability is DamageAbility damageAbility){
+                damageAbility.scaledPower += (int)(user.magic*0.25m);
+            }
+        }
+    }
 
     //-------------------------------------------Weapons------------------------------------------------------------------
     class WeaponEquipment : Equipment
@@ -218,7 +246,16 @@ namespace projectTower
     {
         public Arcana(string name, int hpMod, int mpMod, int strMod, int magMod, int tecMod, int defMod, int speedMod, int precMod, int evaMod, string rarity, string description, int price) :
          base(name, hpMod, mpMod, strMod, magMod, tecMod, defMod, speedMod, precMod, evaMod, rarity, description, price){}
+        public Arcana(){}
     }
-    
+    class ArcanaTheMagician : Arcana{
+        public ArcanaTheMagician(){}
+
+        public override void Passive(Character chara)
+        {
+            int magDif = chara.magic - chara.strength;
+            chara.magic += magDif;
+        }
+    }
 
 }
