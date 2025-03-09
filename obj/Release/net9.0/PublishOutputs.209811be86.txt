@@ -1,0 +1,5 @@
+C:\Users\Benja\Documents\thing\projectTower\bin\Release\net9.0\publish\projectTower.exe
+C:\Users\Benja\Documents\thing\projectTower\bin\Release\net9.0\publish\projectTower.dll
+C:\Users\Benja\Documents\thing\projectTower\bin\Release\net9.0\publish\projectTower.deps.json
+C:\Users\Benja\Documents\thing\projectTower\bin\Release\net9.0\publish\projectTower.runtimeconfig.json
+C:\Users\Benja\Documents\thing\projectTower\bin\Release\net9.0\publish\projectTower.pdb
