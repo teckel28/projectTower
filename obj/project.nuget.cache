@@ -1,8 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "Dugg6d2N6C8=",
+  "dgSpecHash": "9A8prURSZcQ=",
   "success": true,
   "projectFilePath": "C:\\Users\\Benja\\Documents\\thing\\projectTower\\projectTower.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\Benja\\.nuget\\packages\\microsoft.netcore.app.runtime.win-x64\\9.0.1\\microsoft.netcore.app.runtime.win-x64.9.0.1.nupkg.sha512",
+    "C:\\Users\\Benja\\.nuget\\packages\\microsoft.windowsdesktop.app.runtime.win-x64\\9.0.1\\microsoft.windowsdesktop.app.runtime.win-x64.9.0.1.nupkg.sha512",
+    "C:\\Users\\Benja\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x64\\9.0.1\\microsoft.aspnetcore.app.runtime.win-x64.9.0.1.nupkg.sha512",
+    "C:\\Users\\Benja\\.nuget\\packages\\microsoft.netcore.app.crossgen2.win-x64\\9.0.1\\microsoft.netcore.app.crossgen2.win-x64.9.0.1.nupkg.sha512"
+  ],
   "logs": []
 }
