@@ -318,7 +318,7 @@ namespace projectTower
             Console.ForegroundColor = ConsoleColor.DarkGreen;
             Console.SetCursorPosition(1, 2);
             if(chara.currentHp < 0) chara.currentHp = 0;
-            Console.WriteLine("HP: " + chara.currentHp + "/" + chara.maxHp + "   Bleed: " + chara.bleed + "   Poison: " + chara.poisonStack);
+            Console.WriteLine("HP: " + chara.currentHp + "/" + chara.maxHp + "   Bleed: " + chara.bleed + " Poison: " + chara.poisonStack);
             Console.SetCursorPosition(1, 3);
             Console.WriteLine("                   ");
             Console.ForegroundColor = ConsoleColor.DarkCyan;

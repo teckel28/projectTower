@@ -86,7 +86,7 @@ namespace projectTower
                 Program.HUD();
                 DisplayMonster();
 
-                Writer.WriteText("[Enter command 'a1', 'a2', 'a3' or 'a4']", 10);
+                Writer.WriteText("[Enter command 'a1', 'a2', 'a3' or 'a4']", 9);
                 //read input
                 input = Console.ReadLine();
                 //checking validiy-----------------------------------
@@ -172,9 +172,8 @@ namespace projectTower
             Writer.WriteText(monster.name + " stats:", 6);
             Writer.WriteText("          ", 7);
             if(monster.currentHp < 0) monster.currentHp = 0;
-            Writer.WriteText("HP: " + monster.currentHp + "/" + monster.maxHp + " Stats: " + monster.strength + "/" + monster.magic + "/" + monster.technique, 7);
-            Writer.WriteText("Evasion: " + monster.evasion + " DEF: " + monster.defense + " PRE: " + monster.precision, 8);
-            Writer.WriteText("SPE: " + monster.speed + " MP: " + monster.currentMp + "/" + monster.maxMp, 9);
+            Writer.WriteText("HP: " + monster.currentHp + "/" + monster.maxHp + " Bleed: " + monster.bleed + " Poison: " + monster.poison, 7);
+            Writer.WriteText("Evasion: " + monster.evasion + " Burn: " + monster.burn + " for " + monster.burnTurnCount + " turns" , 8);
         }
 
         public void SwitchInput(string input, int line){
