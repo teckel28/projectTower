@@ -55,6 +55,8 @@ namespace projectTower{
         public bool poison = false;
         public int poisonStack {get; set;} = 0;
         public int antidoteChance {get; set;} = 20;
+        public int burn {get; set;} = 0;
+        public int burnTurnCount {get; set;} = 0;
         
         //constructor for PC
         public Character(string name, int pcrace, int pcclass){

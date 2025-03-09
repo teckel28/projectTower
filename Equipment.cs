@@ -59,6 +59,16 @@ namespace projectTower
 
         }
     }
+    class HeadChariotHelm : HeadEquipment{
+        public HeadChariotHelm(){}
+
+        public override void Passive(Character chara)
+        {
+            if(chara.weapon.tags.Contains("Spear")){
+                chara.strength += 15;
+            }
+        }
+    }
 
     //------------------------------------------Chest----------------------------------------------------------------
     class ChestEquipment : Equipment
@@ -71,11 +81,7 @@ namespace projectTower
 
         public override void OnTakingDamage(Character user, Character target, DamageAbility ability)
         {
-            Writer.WriteText("Spiked chestplate deal 3 damage to the enemy", 22);
-            Writer.WriteText("[Continue: press any key]", 23);
             user.currentHp -= 3;
-            Writer.WriteText("                                            ", 22);
-            Writer.WriteText("                         ", 23);
         }
     }
     class ChestMagicRobes : ChestEquipment{
@@ -86,6 +92,35 @@ namespace projectTower
             if(ability.magScale > 0){
                 ability.damage -= (int)(ability.damage*0.25);
             }
+        }
+    }
+    class ChestChariotPlate : ChestEquipment{
+        public ChestChariotPlate(){
+        }
+
+        public override void Passive(Character chara)
+        {
+            chara.defense += (int)(chara.defense*0.2);
+        }
+    }
+    class ChestFeyWings : ChestEquipment{
+        public ChestFeyWings(){}
+
+        public override void OnTurnEnd(Character chara, Character monster)
+        {
+            this.speedMod = monster.burn;
+        }
+        public override void OnBattleEnd(Character chara)
+        {
+            this.speedMod = 0;
+        }
+    }
+    class ChestHermitTunic : ChestEquipment{
+        public ChestHermitTunic(){}
+
+        public override void OnTakingDamage(Character user, Character target, DamageAbility ability)
+        {
+            user.bleed += 2;
         }
     }
 
@@ -120,7 +155,20 @@ namespace projectTower
             }
         }
     }
-    
+    class LegsChariotBraces : LegsEquipment{
+        public LegsChariotBraces(){}
+
+        
+        public override void OnTakingDamage(Character user, Character target, DamageAbility ability)
+        {
+            if(ability.damage <= 30){
+                this.strMod++;
+                this.tecMod++;
+            }
+        }
+
+    }
+
     ////-----------------------------------------Feet----------------------------------------------------------------
     class FeetEquipment : Equipment
     {
@@ -134,6 +182,15 @@ namespace projectTower
             chara.speed += (int)(chara.magic*0.1m);
         }
     }
+    class FeetChariotBoots : FeetEquipment{
+        public FeetChariotBoots(){}
+
+        public override void OnTakingDamage(Character user, Character target, DamageAbility ability)
+        {
+            ability.damage -= 4;
+        }
+    }
+    
     //------------------------------------------Accesories----------------------------------------------------------------
     class AccesoryEquipment : Equipment
     {
@@ -210,6 +267,49 @@ namespace projectTower
             }
         }
     }
+    class AccFirefeyCore : AccesoryEquipment{
+        public AccFirefeyCore(){}
+
+        public override void OnDamage(Character user, Character target, DamageAbility ability)
+        {
+            if((target.burn < 3 || target.burnTurnCount < 3) && Program.random.Next(1, 101) <= 30){
+                target.burn = 3;
+                target.burnTurnCount = 3;
+            }
+        }
+    }
+    class AccRosary : AccesoryEquipment{
+        public AccRosary(){}
+        bool firstTurn = true;
+        public override void OnTurnEnd(Character chara, Character monster)
+        {
+            if((monster.burn < 3 || monster.burnTurnCount < 10) && firstTurn){
+                monster.burn = 3;
+                monster.burnTurnCount = 10;
+            }
+            firstTurn = false;
+        }
+
+        public override void OnBattleEnd(Character chara)
+        {
+            firstTurn = true;
+        }
+    }
+    class AccHerb : AccesoryEquipment{
+        public AccHerb(){}
+
+        bool firstTurn = true;
+        public override void OnTurnEnd(Character chara, Character monster)
+        {
+            monster.poison = true;
+            firstTurn = false;
+        }
+
+        public override void OnBattleEnd(Character chara)
+        {
+            firstTurn = true;
+        }
+    }
 
     //-------------------------------------------Weapons------------------------------------------------------------------
     class WeaponEquipment : Equipment
@@ -257,5 +357,60 @@ namespace projectTower
             chara.magic += magDif;
         }
     }
+    class ArcanaTheChariot : Arcana{
+        public ArcanaTheChariot(){}
 
+        int charge;
+
+        public override void OnUseAbility(Character user, Character target, Ability ability)
+        {
+            if(user.speed >= target.speed && ability is DamageAbility damageAbility){
+                this.strMod += (user.speed - target.speed)/2;
+            }
+        }
+        public override void OnTurnEnd(Character chara, Character monster)
+        {
+            if(this.strMod > 0){
+                this.strMod = 0;
+            }
+        }
+        public override void OnTakingDamage(Character user, Character target, DamageAbility ability)
+        {
+            charge++;
+            this.speedMod++;
+        }
+
+        public override void OnBattleEnd(Character chara)
+        {
+            this.speedMod -= charge;
+            this.charge = 0;
+        }
+    }
+    class ArcanaTheHermit : Arcana{
+        public ArcanaTheHermit(){}
+
+        public override void Passive(Character chara)
+        {
+            if(chara.gold <= 10){
+                chara.magic += (int)(chara.magic*0.3m);
+            }
+        }
+    }
 }
+/*
+bool used = false;
+        public override void OnTakingDamage(Character user, Character target, DamageAbility ability)
+        {
+            if(ability.damage >= target.currentHp && !used){
+                ability.damage = 0;
+                target.currentHp = 20;
+                used = true;
+            }
+        }
+
+
+        public override void OnBattleEnd(Character chara)
+        {
+            used = false;
+        }
+*/

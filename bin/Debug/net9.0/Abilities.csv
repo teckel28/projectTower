@@ -1,18 +1,21 @@
-Type;Name;Desc1;Desc2;Desc3;Element;mpCost;strScale;magScale;tecScale;power;precMod;poison;bleed
-NullAbility;;;;;;;;;;;;;
-DamageAbility;Slash;Deals little damage to the enemy;;;-;;0,5;;0,4;7;;;
-DamageAbility;Stab;A precise hit to the enemy;;;-;;0,3;;0,6;4;1;;
-DamageAbility;Slime strike;Blunt strike with this goey weapon;;;-;;0,5;0,3;0,15;5;;;
-DamageAbility;Conjure fluid;Conjures a ball of slime and;shoots it foward. Higher scaling;but lower base power;Water;3;;0,8;0,3;1;;;
-DamageAbility;Pierce flurry;Really difficult to pull off,;requires great strenght, technique,;and precision;;;0,9;;0,9;1;-2;;
-DamageAbility;Baby fire breath;Consumes a lot of mp, but deals;great damage, characteristic of;someone with low control of fire;Fire;12;;1;;7;;;
-DamageAbility;Tear;Cuts through skin with raw strenght;;;;;0,85;;;3;;;
-DamageAbility;Shoot arrow;Shoots a fast projectile;;;;;0,2;;0,8;4;;;
-DamageAbility;Heavy slam;Very hard hit, swings with a lot of;strength;;;;0,8;;0,2;4;;;
-DamageBloodStrike;Blood strike;Really powerfull hit that increases;this weapon's strength by 2, but;using it costs 5% of your HP;;;1;;;0;;;
-DamageWound;Wound;Inflicts Bleed 3;;;;;0,3;;0,3;3;-2;;3
-DamagePoison;Poison cut;25% chance to poision;;;;;0,4;0,4;0,4;3;;25;
-DamagePoison;Haze strike;Deals some damage and its bad smell;has a 15% chance to poison;;;5;0,4;0,4;;5;;15;
-ManaDrainAbility;Mana drain;Steals more MP the less MAG the ;target has;;5;;;;10;10;;;
-DamageWound;Magic cut;Deals some damage and inflicts ;Bleed 3;;Dark;8;;0,7;0,2;1;;;2
-DamageAbility;Arcane blast;Negative STR scaling;(deals less damage the more STR;you have);Dark;8;-0,3;1,2;;5;;;
+Type;Name;Desc1;Desc2;Desc3;Element;mpCost;strScale;magScale;tecScale;power;precMod;poison;bleed;burn;burnCount;burnChance
+NullAbility;;;;;;;;;;;;;;;;
+DamageAbility;Slash;Deals little damage to the enemy;;;-;;0,5;;0,4;7;;;;;;
+DamageAbility;Stab;A precise hit to the enemy;;;-;;0,3;;0,6;4;1;;;;;
+DamageAbility;Slime strike;Blunt strike with this goey weapon;;;-;;0,5;0,3;0,15;5;;;;;;
+DamageAbility;Conjure fluid;Conjures a ball of slime and;shoots it foward. Higher scaling;but lower base power;Water;3;;0,8;0,3;1;;;;;;
+DamageAbility;Pierce flurry;Really difficult to pull off,;requires great strength, technique,;and precision;;;0,9;;0,9;1;-2;;;;;
+DamageAbility;Baby fire breath;Consumes a lot of mp, but deals;great damage, characteristic of;someone with low control of fire;Fire;12;;1;;7;;;;;;
+DamageAbility;Tear;Cuts through skin with raw strenght;;;;;0,85;;;3;;;;;;
+DamageAbility;Shoot arrow;Shoots a fast projectile;;;;;0,2;;0,8;4;;;;;;
+DamageAbility;Heavy slam;Very hard hit, swings with a lot of;strength;;;;0,8;;0,2;4;;;;;;
+DamageBloodStrike;Blood strike;Really powerfull hit that increases;this weapon's strength by 2, but;using it costs 5% of your HP;;;1;;;0;;;;;;
+DamageWound;Wound;Inflicts Bleed 2;;;;;0,3;;0,3;3;-2;;2;;;
+DamagePoison;Poison cut;25% chance to poision;;;;;0,4;0,4;0,4;3;;25;;;;
+DamagePoison;Haze strike;Deals some damage and its bad smell;has a 15% chance to poison;;;5;0,4;0,4;;5;;15;;;;
+ManaDrainAbility;Mana drain;Steals more MP the less MAG the ;target has;;;;;;;20;;;;;;
+DamageWound;Magic cut;Deals some damage and inflicts ;Bleed 3;;Dark;8;;0,7;0,2;1;;;3;;;
+DamageAbility;Arcane blast;Big burst of high scaling damage;;;Dark;8;;1,2;;0;;;;;;
+DamageRocket;Rocket charge;Has 50% SPE scaling;;;;;0,4;;0,4;0;-2;;;;;
+DamageBurn;Faerie fire;Has a 30% chance to Burn 3 for ;3 turns;;Fire;6;;0,5;;4;;;;3;3;30
+DamageBurn;Will o' wisp;Has a 70% chance to Burn 5 for;3 turns;;Fire;4;;0,2;;2;;;;5;3;70

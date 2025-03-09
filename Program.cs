@@ -14,7 +14,7 @@ namespace projectTower
     {
         public static Random random = new Random();
         public static int floor = 0;
-        public static int room = 1;
+        public static int room = 0;
         public static Character chara;
 
         public static List<string[]> CSVabilities = new List<string[]>();
@@ -87,7 +87,7 @@ namespace projectTower
                 //if elf------------------------------------------------
                 case 1:
                     RelicElfSoul elfsoul;
-                    elfsoul = new RelicElfSoul("Elf soul", 10, 12, 5, 5, 10, 7, 5, 3, 3, "Rare", "10% of your STR and MAG are added to your TEC [+10 HP, +12 MP, +5 STR, +5 MAG, +10 TEC, +7 DEF, +5 SPE, +3 PREC, +2 EVA]");
+                    elfsoul = new RelicElfSoul("Elf soul", 10, 12, 6, 5, 9, 7, 5, 3, 3, "Rare", "10% of your STR and MAG are added to your TEC [+10 HP, +12 MP, +6 STR, +5 MAG, +9 TEC, +7 DEF, +5 SPE, +3 PREC, +3 EVA]");
                     chara.relics.Add(elfsoul);
 
                 break;
@@ -96,7 +96,7 @@ namespace projectTower
                 //if dwarf----------------------------------------------
                 case 2:
                     RelicDwarfSoul dwarfsoul;
-                    dwarfsoul = new RelicDwarfSoul("Dwarf soul", 20, 5, 10, 3, 2, 8, 1, 1, 1, "Rare", "+1 DEF per item in your inventory [+20 HP, +5 MP, +10 STR, +3 MAG, +2 TEC, +8 DEF, +1 SPE, +1 PREC, +3 EVA]");
+                    dwarfsoul = new RelicDwarfSoul("Dwarf soul", 30, 5, 7, 3, 2, 10, 1, 2, 2, "Rare", "+1 DEF per rare or higher item in your inventory [+30 HP, +5 MP, +7 STR, +3 MAG, +2 TEC, +10 DEF, +1 SPE, +2 PREC, +2 EVA]");
                     chara.relics.Add(dwarfsoul);
                 break;
             }
@@ -291,8 +291,8 @@ namespace projectTower
                 
                 }
 
-                if(chara.exp >= 10){
-                chara.exp -= 10;
+                if(chara.exp >= 7){
+                chara.exp -= 7;
                 chara.level++;
                 LevelUp();
                 }
@@ -312,19 +312,19 @@ namespace projectTower
             //Name, hp, mp
             Console.SetCursorPosition(1, 1);
             Console.ForegroundColor = ConsoleColor.DarkCyan;
-            Console.WriteLine(chara.name + ", Level " + chara.level + " (" + chara.exp + "/10) "  + ", Gold: " + chara.gold);
+            Console.WriteLine(chara.name + ", Level " + chara.level + " (" + chara.exp + "/7) "  + ", Gold: " + chara.gold);
             Console.SetCursorPosition(1, 2);
             Console.WriteLine("                   ");
             Console.ForegroundColor = ConsoleColor.DarkGreen;
             Console.SetCursorPosition(1, 2);
             if(chara.currentHp < 0) chara.currentHp = 0;
-            Console.WriteLine("HP: " + chara.currentHp + "/" + chara.maxHp);
+            Console.WriteLine("HP: " + chara.currentHp + "/" + chara.maxHp + "   Bleed: " + chara.bleed + "   Poison: " + chara.poisonStack);
             Console.SetCursorPosition(1, 3);
             Console.WriteLine("                   ");
             Console.ForegroundColor = ConsoleColor.DarkCyan;
             Console.SetCursorPosition(1, 3);
             if(chara.currentMp < 0) chara.currentMp = 0;
-            Console.WriteLine("MP: " + chara.currentMp + "/" + chara.maxMp);
+            Console.WriteLine("MP: " + chara.currentMp + "/" + chara.maxMp + "   Burn: " + chara.burn + " for " + chara.burnTurnCount + " turns");
             Console.ForegroundColor = ConsoleColor.Magenta;
 
             //Floor, room
@@ -455,7 +455,7 @@ namespace projectTower
         {
 
             //select the first 3 numbers (types of rooms)
-            if(floor == 0 && room < 3){
+            if(floor == 0 && room < 2){
                 for (int i = 0; i < 3; i++)  
                     values[i] = 1;
             }
@@ -495,9 +495,9 @@ namespace projectTower
 
             //tier value is how many monsters are in that tier
             int tier1 = 1 + 7; //floor 1 easy
-            int tier2 = tier1 + 3; //floor 1 hard
+            int tier2 = tier1 + 4; //floor 1 hard
             int tier3 = tier2 + 5 + 0; //floor 2 easy
-            int[] tierRanges = { 1, tier1, tier2, tier2 + 5, tier3 };
+            int[] tierRanges = {1, tier1, tier2, tier2 + 5, tier3 };
 
 
             List<int> bosses = new List<int>();//list with all bosses in case of a bossfitght
@@ -676,8 +676,9 @@ namespace projectTower
             Writer.WriteText("Third door: [type command 'r3']", 13);
             room3 = PrintRoom(2);
             Writer.WriteText("Equip an item: [type command 'equip']", 17);
-            Writer.WriteText("See a description: [type command 'desc']", 19);
-            Writer.WriteText("Close program (no saving): [type command 'exit']", 21);
+            Writer.WriteText("See an item description: [type command 'desc']", 19);
+            Writer.WriteText("See a relic description: [type command 'rdesc']", 21);
+            Writer.WriteText("Close program (no saving): [type command 'exit']", 23);
         }
 
         //prints the room type and also returns a string for GiveOptions() to return to the main program
@@ -1029,6 +1030,16 @@ namespace projectTower
                 if (CSVabilities[abIndex][13] == "") woundAb.bleed = 0;
                 else woundAb.bleed = Convert.ToInt32(CSVabilities[abIndex][13]);
             }
+            if(ab is DamageBurn burnAb){
+                if (CSVabilities[abIndex][14] == "") burnAb.burn = 0;
+                else burnAb.burn = Convert.ToInt32(CSVabilities[abIndex][14]);
+                
+                if (CSVabilities[abIndex][15] == "") burnAb.burnCount = 0;
+                else burnAb.burnCount = Convert.ToInt32(CSVabilities[abIndex][15]);
+
+                if (CSVabilities[abIndex][16] == "") burnAb.burnChance = 0;
+                else burnAb.burnChance = Convert.ToInt32(CSVabilities[abIndex][16]);
+            }
 
 
             return ab;
@@ -1240,7 +1251,7 @@ namespace projectTower
             chara.relics[0].hpMod += 15; chara.currentHp += 15;
             chara.relics[0].mpMod += 15; chara.currentMp += 15;
             chara.relics[0].strMod += 3; chara.relics[0].magMod += 3; chara.relics[0].tecMod += 3;
-            chara.relics[0].defMod += 3; chara.relics[0].speedMod += 3;
+            chara.relics[0].defMod += 2; chara.relics[0].speedMod += 3;
             chara.relics[0].precMod += 1; chara.relics[0].evaMod += 1;
             Console.Clear();
             HUD();
@@ -1249,7 +1260,7 @@ namespace projectTower
             Writer.WriteText("Choose 1 more benefit: ", 7);
             Writer.WriteText("Gain +15 maxHP/maxMP: ", 9);
             Writer.WriteText("[type command 'hp'/'mp']", 10);
-            Writer.WriteText("Gain +3 STR/MAG/TEC/DEF/SPE: ", 12);
+            Writer.WriteText("Gain +3 STR/MAG/TEC/SPE or +2 DEF: ", 12);
             Writer.WriteText("[type command 'str'/'mag'/'tec'/'def'/'spe']", 13);
             Writer.WriteText("Gain +1 PRE/EVA: ", 15);
             Writer.WriteText("[type command 'pre'/'eva']", 16);
@@ -1320,10 +1331,10 @@ namespace projectTower
                     break;
 
                 case "def":
-                    chara.relics[0].defMod += 3;
+                    chara.relics[0].defMod += 2;
                     Console.Clear();
                     HUD();
-                    Writer.WriteText("+3 DEF", 5);
+                    Writer.WriteText("+2 DEF", 5);
                     chara.exp++;
                     break;
 

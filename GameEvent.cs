@@ -86,7 +86,7 @@ namespace projectTower
                 Program.HUD();
                 DisplayMonster();
 
-                Writer.WriteText("[Enter command 'a1', 'a2', 'a3' or 'a4']", 11);
+                Writer.WriteText("[Enter command 'a1', 'a2', 'a3' or 'a4']", 10);
                 //read input
                 input = Console.ReadLine();
                 //checking validiy-----------------------------------
@@ -140,8 +140,8 @@ namespace projectTower
                 Console.ReadKey();
                 Environment.Exit(0);
             }
-            //win
-            Program.chara.bleed = 0; Program.chara.poison = false; Program.chara.poisonStack = 0;
+            //win reset all status
+            Program.chara.bleed = 0; Program.chara.poison = false; Program.chara.poisonStack = 0; Program.chara.burn = 0; Program.chara.burnTurnCount = 0;
             
             
         }
@@ -260,7 +260,7 @@ namespace projectTower
         public void EndOfTurn(){
             Writer.WriteText("End of turn effects: ", 5);
 
-
+            //OnTurnEnd abilities
             foreach (Relic relic in Program.chara.relics)
             {
                 relic.OnTurnEnd(Program.chara, monster);
@@ -273,6 +273,21 @@ namespace projectTower
             if (Program.chara.accesoryEquip2 != null) Program.chara.accesoryEquip2.OnTurnEnd(Program.chara, monster);
             if (Program.chara.weapon != null) Program.chara.weapon.OnTurnEnd(Program.chara, monster);
             if (Program.chara.weapon2 != null) Program.chara.weapon2.OnTurnEnd(Program.chara, monster);
+            if (Program.chara.arcanaEquip != null) Program.chara.arcanaEquip.OnTurnEnd(Program.chara, monster);
+            foreach (Relic relic in monster.relics)
+            {
+                relic.OnTurnEnd(monster, Program.chara);
+            }
+            if (monster.headEquip != null) monster.headEquip.OnTurnEnd(monster, Program.chara);
+            if (monster.chestEquip != null) monster.chestEquip.OnTurnEnd(monster, Program.chara);
+            if (monster.legsEquip != null) monster.legsEquip.OnTurnEnd(monster, Program.chara);
+            if (monster.feetEquip != null) monster.feetEquip.OnTurnEnd(monster, Program.chara);
+            if (monster.accesoryEquip1 != null) monster.accesoryEquip1.OnTurnEnd(monster, Program.chara);
+            if (monster.accesoryEquip2 != null) monster.accesoryEquip2.OnTurnEnd(monster, Program.chara);
+            if (monster.weapon != null) monster.weapon.OnTurnEnd(monster, Program.chara);
+            if (monster.weapon2 != null) monster.weapon2.OnTurnEnd(monster, Program.chara);
+            if (monster.arcanaEquip != null) monster.arcanaEquip.OnTurnEnd(monster, Program.chara);
+            //OnTurnEnd abilities
 
 
             Console.Clear();
@@ -282,11 +297,13 @@ namespace projectTower
             if(Program.chara.bleed != 0 || monster.bleed != 0){
                 
                 if (Program.chara.bleed != 0){
+                    Writer.WriteText("                                                                                ", 7);
                     Writer.WriteText(Program.chara.name + " loses " + Program.chara.bleed + " HP due to bleeding. The wound heals a little.", 7);
                     Program.chara.currentHp -= Program.chara.bleed;
                     Program.chara.bleed--;
                 }
                 if(monster.bleed != 0){
+                    Writer.WriteText("                                                                                ", 9);
                     Writer.WriteText(monster.name + " loses " + monster.bleed + " HP due to bleeding. The wound heals a little.", 9);
                     monster.currentHp -= monster.bleed;
                     monster.bleed--;
@@ -300,6 +317,7 @@ namespace projectTower
                 if (Program.chara.poison)
                 {
                     Program.chara.poisonStack++;
+                    Writer.WriteText("                                                                                ", 7);
                     Writer.WriteText(Program.chara.name + " loses " + Program.chara.poisonStack + " HP due to poison. The poison worsens.", 7);
                     Program.chara.currentHp -= Program.chara.poisonStack;
 
@@ -313,6 +331,7 @@ namespace projectTower
                 if (monster.poison)
                 {
                     monster.poisonStack++;
+                    Writer.WriteText("                                                                                ", 9);
                     Writer.WriteText(monster.name + " loses " + monster.poisonStack + " HP due to poison. The poison worsens.", 9);
                     monster.currentHp -= monster.poisonStack;
 
@@ -321,6 +340,38 @@ namespace projectTower
                         Writer.WriteText("The poison is cured!", 10);
                         monster.poison = false;
                         monster.poisonStack = 0;
+                    }
+                }
+
+                Writer.WriteText("[Continue: press any key]", 11);
+                Console.ReadKey();
+            }
+            //burn dmg
+            if(Program.chara.burn > 0 || monster.burn > 0){
+                if (Program.chara.burn > 0)
+                {
+                    Program.chara.burnTurnCount--;
+                    Writer.WriteText("                                                                                ", 7);
+                    Writer.WriteText(Program.chara.name + " loses " + Program.chara.burn + " HP due to burn. "  + Program.chara.burnTurnCount + " turns remaining.", 7);
+                    Program.chara.currentHp -= Program.chara.burn;
+
+                    if (Program.chara.burnTurnCount <= 0)
+                    {
+                        Writer.WriteText("The burn is cured!", 8);
+                        Program.chara.burn = 0;
+                    }
+                }
+                if (monster.burn > 0)
+                {
+                    monster.burnTurnCount--;
+                    Writer.WriteText("                                                                                ", 9);
+                    Writer.WriteText(monster.name + " loses " + monster.burn + " HP due to burn. " + monster.burnTurnCount + " turns remaining.", 9);
+                    monster.currentHp -= monster.burn;
+
+                    if (monster.burnTurnCount <= 0)
+                    {
+                        Writer.WriteText("The burn is cured!", 8);
+                        monster.burn = 0;
                     }
                 }
 
@@ -580,7 +631,7 @@ namespace projectTower
             Writer.WriteText("[type command 'fullrest']", 11);
             Writer.WriteText("Gain +15 maxHP/maxMP: ", 13);
             Writer.WriteText("[type command 'hp'/'mp']", 14);
-            Writer.WriteText("Gain +3 STR/MAG/TEC/DEF/SPE: ", 16);
+            Writer.WriteText("Gain +3 STR/MAG/TEC/SPE or +2 DEF: ", 16);
             Writer.WriteText("[type command 'str'/'mag'/'tec'/'def'/'spe']", 17);
             Writer.WriteText("Gain +1 PRE/EVA (no EXP this room): ", 19);
             Writer.WriteText("[type command 'pre'/'eva']", 20);
@@ -664,10 +715,10 @@ namespace projectTower
                 break;
 
                 case "def":
-                    Program.chara.relics[0].defMod += 3;
+                    Program.chara.relics[0].defMod += 2;
                     Console.Clear();
                     Program.HUD();
-                    Writer.WriteText("You burn yourself with the fire and improve your resistance, +3 DEF", 5);
+                    Writer.WriteText("You burn yourself with the fire and improve your resistance, +2 DEF", 5);
                     Program.chara.exp++;
                 break;
 

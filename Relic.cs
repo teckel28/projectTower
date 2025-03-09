@@ -31,7 +31,11 @@ namespace projectTower
     {
         //add number of items in inventory to defense
         public override void Passive(Character chara){
-            chara.defense += chara.inventory.Count();
+            foreach (Equipment equipment in chara.inventory)
+            {
+                if(equipment.rarity == "Rare" || equipment.rarity == "Epic" || equipment.rarity == "Legendary")
+                    chara.defense++;
+            }
         }
 
         public RelicDwarfSoul(string name, int hpMod, int mpMod, int strMod, int magMod, int tecMod, int defMod, int speedMod, int precMod, int evaMod, string rarity, string description) :
